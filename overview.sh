@@ -31,12 +31,12 @@ function process(    url, name, section) {
 	name = $NF
 	$NF = ""
 	section = $0
-	if (section != LAST) {
+	if (section != PREVIOUS) {
 		if (NR != 1)
 			section_close()
 		section_open(section)
 	}
-	LAST = section
+	PREVIOUS = section
 	item(url, name)
 }
 
