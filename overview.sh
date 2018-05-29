@@ -31,10 +31,15 @@ function process(    url, name, title) {
 	name = $NF
 	$NF = ""
 	title = $0
-	if (title != PREVIOUS)
+	if (iteration_changed(title))
 		iteration_tick(title)
-	PREVIOUS = title
 	item(url, name)
+}
+
+function iteration_changed(title,    eq) {
+	eq = title == PREVIOUS
+	PREVIOUS = title
+	return !eq
 }
 
 function iteration_tick(title) {
