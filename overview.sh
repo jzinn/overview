@@ -2,8 +2,8 @@
 set -eu
 
 find . -mindepth 2 -name '*.html' |
-     sort |
-     awk '
+	sort |
+	awk '
 BEGIN {
 	OFS = FS = "/"
 	print "<!doctype html>"
