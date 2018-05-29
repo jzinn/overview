@@ -26,23 +26,23 @@ BEGIN {
 
 { process() }
 
-function process(    url, name, section) {
+function process(    url, name, title) {
 	url = $0
 	name = $NF
 	$NF = ""
-	section = $0
-	if (section != PREVIOUS) {
+	title = $0
+	if (title != PREVIOUS) {
 		if (NR != 1)
 			section_close()
-		section_open(section)
+		section_open(title)
 	}
-	PREVIOUS = section
+	PREVIOUS = title
 	item(url, name)
 }
 
-function section_open(section) {
+function section_open(title) {
 	print ""
-	print "  <h3>" section "</h3>"
+	print "  <h3>" title "</h3>"
 	print "  <ol>"
 }
 
