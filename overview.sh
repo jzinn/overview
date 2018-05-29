@@ -61,7 +61,7 @@ function clean(name) {
 }
 
 END {
-	if (NR != 0)
+	if (NR)
 		section_close()
 	print "</body>"
 	print "</html>"
