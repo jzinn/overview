@@ -6,8 +6,8 @@ find . -mindepth 2 -name '*.html' |
      awk '
 BEGIN {
 	OFS = FS = "/"
-	print "<!-- keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij -->"
 	print "<!doctype html>"
+	print "<!-- keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij -->"
 	print "<html lang=\"en\">"
 	print "<head>"
 	print "  <meta charset=\"utf-8\">"
