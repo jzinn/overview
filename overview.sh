@@ -21,19 +21,13 @@ BEGIN {
 
 function process(    url, name, section) {
 	url = $0
-	name = clean($NF)
+	name = $NF
 	$NF = ""
 	section = $0
 	if (section != LAST)
 		section_open(section)
 	LAST = section
 	item(url, name)
-}
-
-function clean(name) {
-	sub(/\.html$/, "", name)
-	gsub(/[._]/, " ", name)
-	return name
 }
 
 function section_open(section) {
@@ -49,7 +43,13 @@ function section_close() {
 }
 
 function item(url, name) {
-	print "    <li><a href=\"" url "\">" name "</a></li>"
+	print "    <li><a href=\"" url "\">" clean(name) "</a></li>"
+}
+
+function clean(name) {
+	sub(/\.html$/, "", name)
+	gsub(/[._]/, " ", name)
+	return name
 }
 
 END {
