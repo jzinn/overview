@@ -24,8 +24,8 @@ function process(    url, name, section) {
 	name = clean($NF)
 	$NF = ""
 	section = $0
-	if (section != last)
-		ol(last = section)
+	if (section != LAST)
+		ol(LAST = section)
 	li(url, name)
 }
 
