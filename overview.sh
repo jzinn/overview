@@ -40,7 +40,7 @@ function ol(section) {
 	print "  <ol>"
 }
 
-function li(section, name) {
+function li(url, name) {
 	print "    <li><a href=\"" url "\">" name "</a></li>"
 }
 
