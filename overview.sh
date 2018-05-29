@@ -25,8 +25,8 @@ function process(    url, name, section) {
 	$NF = ""
 	section = $0
 	if (section != LAST)
-		ol(LAST = section)
-	li(url, name)
+		section_open(LAST = section)
+	item(url, name)
 }
 
 function clean(name) {
@@ -35,25 +35,25 @@ function clean(name) {
 	return name
 }
 
-function ol(section) {
+function section_open(section) {
 	if (NR != 1)
-		ol_close()
+		section_close()
 	print ""
 	print "  <h3>" section "</h3>"
 	print "  <ol>"
 }
 
-function ol_close() {
+function section_close() {
 	print "  </ol>"
 }
 
-function li(url, name) {
+function item(url, name) {
 	print "    <li><a href=\"" url "\">" name "</a></li>"
 }
 
 END {
 	if (NR != 0)
-		ol_close()
+		section_close()
 	print "</body>"
 	print "</html>"
 }
