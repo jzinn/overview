@@ -1,8 +1,15 @@
 #!/bin/sh
 set -eu
 
-find . -mindepth 2 -name '*.html' |
-	sort |
+main() {
+	files | sort | html
+}
+
+files() {
+	find . -mindepth 2 -name '*.html'
+}
+
+html() {
 	awk '
 BEGIN {
 	OFS = FS = "/"
@@ -59,3 +66,6 @@ END {
 	print "</html>"
 }
 '
+}
+
+main
