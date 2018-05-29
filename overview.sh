@@ -37,10 +37,14 @@ function clean(name) {
 
 function ol(section) {
 	if (NR != 1)
-		print "  </ol>"
+		ol_close()
 	print ""
 	print "  <h3>" section "</h3>"
 	print "  <ol>"
+}
+
+function ol_close() {
+	print "  </ol>"
 }
 
 function li(url, name) {
@@ -49,7 +53,7 @@ function li(url, name) {
 
 END {
 	if (NR != 0)
-		print "  </ol>"
+		ol_close()
 	print "</body>"
 	print "</html>"
 }
