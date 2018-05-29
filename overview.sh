@@ -25,7 +25,8 @@ function process(    url, name, section) {
 	$NF = ""
 	section = $0
 	if (section != LAST)
-		section_open(LAST = section)
+		section_open(section)
+	LAST = section
 	item(url, name)
 }
 
