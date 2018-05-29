@@ -31,13 +31,21 @@ function process(    url, name, title) {
 	name = $NF
 	$NF = ""
 	title = $0
-	if (title != PREVIOUS) {
-		if (NR != 1)
-			section_close()
-		section_open(title)
-	}
+	if (title != PREVIOUS)
+		iteration_tick(title)
 	PREVIOUS = title
 	item(url, name)
+}
+
+function iteration_tick(title) {
+	if (NR != 1)
+		section_close()
+	section_open(title)
+}
+
+function iteration_end() {
+	if (NR)
+		section_close()
 }
 
 function section_open(title) {
@@ -61,8 +69,7 @@ function clean(name) {
 }
 
 END {
-	if (NR)
-		section_close()
+	iteration_end()
 	print "</body>"
 	print "</html>"
 }
