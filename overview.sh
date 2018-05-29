@@ -17,7 +17,9 @@ BEGIN {
 	print "  <h1>Overview</h1>"
 }
 
-{
+{ process() }
+
+function process(    url, name, section) {
 	url = $0
 	name = clean($NF)
 	$NF = ""
