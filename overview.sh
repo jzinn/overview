@@ -31,9 +31,14 @@ function process(    url, name, title) {
 	name = $NF
 	$NF = ""
 	title = $0
+
+	iteration_middle(title)
+	item(url, name)
+}
+
+function iteration_middle(title) {
 	if (iteration_changed(title))
 		iteration_tick(title)
-	item(url, name)
 }
 
 function iteration_changed(title,    eq) {
