@@ -36,7 +36,7 @@ function clean(name) {
 function ol(section) {
 	if (NR != 1)
 		print "  </ol>"
-	print "  <h2>" section "</h2>"
+	print "  <h3>" section "</h3>"
 	print "  <ol>"
 }
 
