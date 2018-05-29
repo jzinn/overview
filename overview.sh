@@ -1,5 +1,9 @@
-#!/usr/bin/awk -f
+#!/bin/sh
+set -eu
 
+find . -mindepth 2 -name '*.html' |
+     sort |
+     awk '
 BEGIN {
 	OFS = FS = "/"
 	print "<!-- keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij -->"
@@ -46,3 +50,4 @@ END {
 	print "</body>"
 	print "</html>"
 }
+'
