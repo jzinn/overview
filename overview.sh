@@ -31,15 +31,16 @@ function process(    url, name, section) {
 	name = $NF
 	$NF = ""
 	section = $0
-	if (section != LAST)
+	if (section != LAST) {
+		if (NR != 1)
+			section_close()
 		section_open(section)
+	}
 	LAST = section
 	item(url, name)
 }
 
 function section_open(section) {
-	if (NR != 1)
-		section_close()
 	print ""
 	print "  <h3>" section "</h3>"
 	print "  <ol>"
