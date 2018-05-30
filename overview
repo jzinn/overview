@@ -1,12 +1,228 @@
 #!/bin/sh
 set -eu
 
+# set -x
+
+test -n "${BASH:-}" && set -o pipefail
+
+DEBUG=false
+DEBUG_FLAG=--no-debug
+FORCE=false
+JOBS=1
+NO_RUN_IF_EMPTY=false
+NULL=
+PRINT_FLAG=-print
+
 main() {
-	files | sort | html
+	test $# -ge 1 || nope
+
+	case "$1" in
+		tree | dotfiles | node | debug | write | generate | find | html | help )
+			command_"$@"
+			;;
+		* )
+			nope
+			;;
+	esac
 }
 
-files() {
-	find . -mindepth 2 -name '*.html'
+nope() {
+	usage >&2
+	exit 1
+}
+
+die() {
+	# sed "s/^/overview: $1: /" >&2
+	cat >&2
+	exit 1
+}
+
+usage() {
+	cat <<'EOF'
+Usage:
+    overview tree [-d] [-f] [-j <n>] <directory>
+    overview dotfiles [-print] [-print0] [-f] <directory>
+    overview node [-d] <file>
+    overview debug
+    overview write [-f] <file> <directory> [expression]
+    overview generate <directory> [expression]
+    overview find <directory> [expression]
+    overview html
+    overview help
+EOF
+}
+
+command_help() {
+	test $# -eq 0 || nope
+
+	usage
+}
+
+command_tree() {
+	while test $# -ne 0
+	do
+		case "$1" in
+			-j | --jobs )
+				shift
+				JOBS="$1"
+				shift
+				;;
+			-d | --debug | --no-debug )
+				DEBUG_FLAG="$1"
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
+	test $# -eq 1 || nope
+
+	"$0" dotfiles -print0 "$1" |
+		xargs -0 -n 1 -P "$JOBS" "$0" node -r "$DEBUG_FLAG"
+}
+
+command_dotfiles() {
+	while test $# -ne 0
+	do
+		case "$1" in
+			-print | -print0 )
+				PRINT_FLAG="$1"
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
+	# Use depth-first traversal so that if --jobs is 1
+	# then ancestors can find files written by descendents
+	exec find "$1" -depth -type f -name '.overview*' "$PRINT_FLAG"
+}
+
+command_node() {
+	while test $# -ne 0
+	do
+		case "$1" in
+			-d | --debug )
+				DEBUG=true
+				shift
+				;;
+			--no-debug )
+				DEBUG=false
+				shift
+				;;
+			-r | --no-run-if-empty )
+				NO_RUN_IF_EMPTY=true
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
+	# We typically get here from a `find | xargs -n 1 node`.
+	# The `node` command requires one argument (a dotfile),
+	# but if `find` returns no results,
+	# then `xargs` will still call `node` one time with no arguments.
+	#
+	# GNU `find` has a `-r` / `--no-run-if-empty` flag to prevent this,
+	# but it is not portable.  With GNU `find`, we can write
+	#
+	#     find | xargs -n 1 -r node
+	#
+	# Instead, we give `node` the `-r` / `--no-run-if-empty` flags,
+	# so that we can portably write
+	#
+	#     find | xargs -n 1 node -r
+	#
+	"$NO_RUN_IF_EMPTY" && test $# -eq 0 && return
+
+	test $# -eq 1 || nope
+
+	set -- "$1" "${1##*/}" "${1%/*}"
+	set -- "$1" write "$3/${2%.}.html" "$3"
+
+	(
+		shift
+		$DEBUG && set -- debug "$@"
+		exec xargs "$0" "$@"
+	) < "$1"
+}
+
+command_validate() {
+	find . -quit \( "$@" \) > /dev/null 2>&1
+}
+
+command_debug() {
+	printf debug:
+	printf ' "%s"' "$@"
+	echo
+}
+
+command_write() {
+	while test $# -ne 0
+	do
+		case "$1" in
+			-f | --force )
+				FORCE=true
+				shift
+				;;
+			--no-force )
+				FORCE=false
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
+	test $# -ge 2 || nope
+
+	if should_not_overwrite "$1"
+	then
+		echo "Unrecognized file already exists: $1" | die
+	fi
+
+	( shift; "$0" generate "$@" ) > "$1"
+}
+
+should_not_overwrite() {
+	! $FORCE && test -f "$1" && ! has_magic "$1"
+}
+
+has_magic() {
+	head "$1" | grep -q "keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij"
+}
+
+command_generate() {
+	test $# -ge 1 || nope
+
+	"$0" find "$@" | "$0" html
+}
+
+command_find() {
+	test $# -ge 1 || nope
+
+	cd "$1"
+	shift
+
+	if test $# -eq 0
+	then
+		set -- -name '*.html'
+	fi
+
+	exec find . -mindepth 2 -type f \( "$@" \)
+}
+
+command_html() {
+	test $# -eq 0 || nope
+
+	sort | html
 }
 
 html() {
@@ -87,4 +303,4 @@ function clean(name) {
 '
 }
 
-main
+main "$@"
