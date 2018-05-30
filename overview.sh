@@ -24,6 +24,12 @@ BEGIN {
 	print "  <h1>Overview</h1>"
 }
 
+END {
+	iteration_end()
+	print "</body>"
+	print "</html>"
+}
+
 { process() }
 
 function process(    url, name, title) {
@@ -76,12 +82,6 @@ function clean(name) {
 	sub(/\.html$/, "", name)
 	gsub(/[._]/, " ", name)
 	return name
-}
-
-END {
-	iteration_end()
-	print "</body>"
-	print "</html>"
 }
 '
 }
