@@ -26,6 +26,7 @@ BEGIN {
 
 END {
 	iteration_end()
+	print ""
 	print "</body>"
 	print "</html>"
 }
