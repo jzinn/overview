@@ -211,10 +211,7 @@ command_find() {
 	cd "$1"
 	shift
 
-	if test $# -eq 0
-	then
-		set -- -name '*.html'
-	fi
+	test $# -eq 0 && set -- -name '*.html'
 
 	exec find . -mindepth 2 -type f \( "$@" \)
 }
