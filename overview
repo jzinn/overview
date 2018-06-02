@@ -144,7 +144,7 @@ command_node() {
 	test $# -eq 1 || nope
 
 	set -- "$1" "${1##*/}" "${1%/*}"
-	set -- "$1" write "$3/${2%.}.html" "$3"
+	set -- "$1" write "$3/${2#.}.html" "$3"
 
 	(
 		shift
