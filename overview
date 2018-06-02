@@ -219,10 +219,12 @@ command_find() {
 command_html() {
 	test $# -eq 0 || nope
 
+	# sort -z | html -0
 	sort | html
 }
 
 html() {
+	# RS="\0"
 	awk '
 BEGIN {
 	OFS = FS = "/"
