@@ -230,7 +230,7 @@ command_html() {
 	test $# -eq 0 || nope
 
 	# sort -z | html -0
-	sort | html
+	sort -t / | html
 }
 
 html() {
