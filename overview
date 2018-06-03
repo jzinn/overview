@@ -229,18 +229,18 @@ command_find() {
 command_html() {
 	test $# -eq 0 || nope
 
-	# Argh! I want to sort first on directory, and then by file name.
-	# I need
-	#
-	#     sort -t / -k 1,-1 -k -1
-	#
-	# Too bad sort doesn't allow negative indexes to count from the end.
-	# Also -1 looks like a flag.
-
 	# sort -z | html -0
 	"$0" sort | html
 }
 
+# Argh! I want to sort first on directory, and then by file name.
+# I need
+#
+#     sort -t / -k 1,-1 -k -1
+#
+# Too bad sort doesn't allow negative indexes to count from the end.
+# Also -1 looks like a flag.
+#
 command_sort() {
 	# Double up the last /, then sort, then dedupe /.
 	sed -E 's/\/([^/]+)$/\/\/\1/' |
