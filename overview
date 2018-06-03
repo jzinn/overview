@@ -44,6 +44,7 @@ Usage:
     overview tree [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-print] [-print0] [-f] <directory>
     overview node [-d] <file>
+    overview debug [...]
     overview write [-f] <file> <directory> [expression]
     overview generate <directory> [expression]
     overview find <directory> [expression]
@@ -164,13 +165,15 @@ command_validate() {
 
 command_debug() {
 	printf debug:
+
 	if test $# -eq 0
 	then
-		echo ' No arguments'
+		printf ' No arguments'
 	else
 		printf ' "%s"' "$@"
-		echo
 	fi
+
+	printf '\n'
 }
 
 command_write() {
