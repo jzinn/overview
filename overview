@@ -158,8 +158,13 @@ command_validate() {
 
 command_debug() {
 	printf debug:
-	printf ' "%s"' "$@"
-	echo
+	if test $# -eq 0
+	then
+		echo ' No arguments'
+	else
+		printf ' "%s"' "$@"
+		echo
+	fi
 }
 
 command_write() {
