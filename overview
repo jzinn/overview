@@ -192,7 +192,7 @@ command_write() {
 }
 
 should_not_overwrite() {
-	! $FORCE && test -f "$1" && ! { has_magic < "$1"; }
+	! $FORCE && test -f "$1" && ! has_magic < "$1"
 }
 
 has_magic() {
