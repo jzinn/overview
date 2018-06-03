@@ -18,7 +18,7 @@ main() {
 	test $# -ge 1 || nope
 
 	case "$1" in
-		tree | dotfiles | node | debug | write | generate | find | html | help )
+		tree | dotfiles | node | debug | write | generate | find | sort | html | help )
 			command_"$@"
 			;;
 		* )
@@ -238,7 +238,14 @@ command_html() {
 	# Also -1 looks like a flag.
 
 	# sort -z | html -0
-	sort -t / | html
+	"$0" sort | html
+}
+
+command_sort() {
+	# Double up the last /, then sort, then dedupe /.
+	sed -E 's/\/([^/]+)$/\/\/\1/' |
+		sort -t / |
+		sed 's/\/\//\//'
 }
 
 html() {
