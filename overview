@@ -309,13 +309,7 @@ function section_close() {
 }
 
 function item(url, name) {
-	print "    <li><a class=\"name\" href=\"" url "\">" clean(name) "</a></li>"
-}
-
-function clean(name) {
-	sub(/\.html$/, "", name)
-	gsub(/[._]/, " ", name)
-	return name
+	print "    <li><a class=\"name\" href=\"" url "\">" name "</a></li>"
 }
 '
 }
