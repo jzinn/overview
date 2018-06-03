@@ -192,11 +192,11 @@ command_write() {
 }
 
 should_not_overwrite() {
-	! $FORCE && test -f "$1" && ! has_magic < "$1"
+	! $FORCE && test -f "$1" && ! has_magic "$1"
 }
 
 has_magic() {
-	head | grep -q "keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij"
+	< "$1" head | grep -q "keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij"
 }
 
 command_generate() {
