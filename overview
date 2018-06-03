@@ -196,16 +196,16 @@ command_write() {
 
 	test $# -ge 2 || nope
 
-	if should_not_overwrite "$1"
+	if ! should_write "$1"
 	then
-		echo "Unrecognized file already exists: $1" | die
+		echo "Not writing \"$1\".  A file may already exist but not contain the magic string." | die
 	fi
 
 	( shift; "$0" generate "$@" ) > "$1"
 }
 
-should_not_overwrite() {
-	! $FORCE && test -f "$1" && ! has_magic < "$1"
+should_write() {
+	$FORCE || ! test -e "$1" || { test -f "$1" && has_magic < "$1"; }
 }
 
 has_magic() {
