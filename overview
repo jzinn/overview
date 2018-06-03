@@ -43,7 +43,6 @@ Usage:
     overview tree [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-print] [-print0] [-f] <directory>
     overview node [-d] <file>
-    overview debug
     overview write [-f] <file> <directory> [expression]
     overview generate <directory> [expression]
     overview find <directory> [expression]
