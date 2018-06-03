@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 set -eu
 
 # set -x
+set -o posix
 
 test -n "${BASH:-}" && set -o pipefail
 
@@ -98,6 +99,9 @@ command_dotfiles() {
 
 	# Use depth-first traversal so that if --jobs is 1
 	# then ancestors can find overview*.hml files written by descendents
+	set -- find "$1" -depth -type f -name '.overview*' "$PRINT_FLAG"
+	# set -- "$0" debug "$@"
+	exec "$@"
 	exec find "$1" -depth -type f -name '.overview*' "$PRINT_FLAG"
 }
 
@@ -142,7 +146,9 @@ command_node() {
 
 	test $# -eq 1 || nope
 
-	set -- "$1" "${1##*/}" "${1%/*}"
+	# control stdin to empty file
+
+	set -- "$1" "`basename -- "$1"`" "`dirname -- "$1"`"
 	set -- "$1" write "$3/${2#.}.html" "$3"
 
 	(
