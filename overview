@@ -98,7 +98,7 @@ command_dotfiles() {
 	done
 
 	# Use depth-first traversal so that if --jobs is 1
-	# then ancestors can find files written by descendents
+	# then ancestors can find overview*.hml files written by descendents
 	exec find "$1" -depth -type f -name '.overview*' "$PRINT_FLAG"
 }
 
