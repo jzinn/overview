@@ -18,7 +18,7 @@ main() {
 	test $# -ge 1 || nope
 
 	case "$1" in
-		tree | dotfiles | node | debug | write | generate | find | sort | html | help )
+		init | tree | dotfiles | node | debug | write | generate | find | sort | html | help )
 			command_"$@"
 			;;
 		* )
@@ -41,6 +41,7 @@ die() {
 usage() {
 	cat <<'EOF'
 Usage:
+    overview init [<directory>]
     overview tree [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-print] [-print0] [-f] <directory>
     overview node [-d] <file>
@@ -57,6 +58,22 @@ command_help() {
 	test $# -eq 0 || nope
 
 	usage
+}
+
+command_init() {
+	test $# -eq 0 && set -- .
+	test $# -eq 1 || nope
+	init "$1/.overview"
+}
+
+init() {
+	if test -e "$1"
+	then
+		echo "Not initializing \"$1\": file already exists"
+	else
+		touch "$1"
+		echo "Initialized in \"$1\""
+	fi
 }
 
 command_tree() {
