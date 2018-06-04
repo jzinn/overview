@@ -38,9 +38,9 @@ Usage:
     overview dotfiles [-z] [-f] <directory>
     overview node [-d] <file>
     overview debug [...]
-    overview write [-f] <file> <directory> [expression]
-    overview generate <directory> [expression]
-    overview find [-z] <directory> [expression]
+    overview write [-f] <file> <directory> <expression>
+    overview generate <directory> <expression>
+    overview find [-z] <directory> <expression>
     overview sort [-z]
     overview html [-z]
     overview help
