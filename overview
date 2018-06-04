@@ -176,7 +176,8 @@ command_node() {
 }
 
 query() {
-	grep '\S' || echo '-name *.html'
+	# grep --passthrough '\S', if grep supported --passthrough
+	awk '/\S/{m=1}END{exit!m}1' || echo '-name *.html'
 }
 
 # control stdin to empty file
