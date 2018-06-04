@@ -220,6 +220,7 @@ command_write() {
 	fi
 
 	( shift; "$0" generate "$@" ) > "$1"
+	echo "Wrote \"$1\""
 }
 
 should_write() {
