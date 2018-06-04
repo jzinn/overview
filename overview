@@ -6,8 +6,6 @@ set -o posix
 
 test -n "${BASH:-}" && set -o pipefail
 
-DEBUG=false
-DEBUG_FLAG=--no-debug
 FORCE=false
 JOBS=1
 NO_RUN_IF_EMPTY=false
@@ -78,6 +76,8 @@ init() {
 }
 
 command_tree() {
+	DEBUG=
+
 	while test $# -ne 0
 	do
 		case "$1" in
@@ -86,8 +86,8 @@ command_tree() {
 				JOBS="$1"
 				shift
 				;;
-			-d | --debug | --no-debug )
-				DEBUG_FLAG="$1"
+			-d | --debug )
+				DEBUG=-d
 				shift
 				;;
 			* )
@@ -99,7 +99,7 @@ command_tree() {
 	test $# -eq 1 || nope
 
 	"$0" dotfiles -print0 "$1" |
-		xargs -0 -n 1 -P "$JOBS" "$0" node -r "$DEBUG_FLAG"
+		xargs -0 -n 1 -P "$JOBS" "$0" node -r $DEBUG
 }
 
 command_dotfiles() {
@@ -125,15 +125,13 @@ command_dotfiles() {
 }
 
 command_node() {
+	DEBUG=
+
 	while test $# -ne 0
 	do
 		case "$1" in
 			-d | --debug )
-				DEBUG=true
-				shift
-				;;
-			--no-debug )
-				DEBUG=false
+				DEBUG=debug
 				shift
 				;;
 			-r | --no-run-if-empty )
@@ -175,8 +173,7 @@ command_node() {
 
 	(
 		shift
-		$DEBUG && set -- debug "$@"
-		exec xargs "$0" "$@"
+		exec xargs "$0" $DEBUG "$@"
 	) < "$1"
 }
 
