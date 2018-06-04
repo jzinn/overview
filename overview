@@ -295,7 +295,7 @@ command_sort() {
 	# GNU sed has a -z option, but BSD sed does not.
 	# Use perl -0 instead.
 
-	# Double up the last /, then sort, then dedupe /.
+	# Double up the last /, then sort, then remove the extra /.
 	perl $ZERO_TERMINATED -ple 's|^(.*)/|$1//|' |
 		sort -z -t / $REVERSE |
 		perl $ZERO_TERMINATED -ple 's|//|/|'
