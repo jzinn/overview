@@ -127,6 +127,21 @@ command_dotfiles() {
 	exec find "$1" -type f -name '.overview*' $PRINT
 }
 
+# We typically get here from a `find | xargs -n 1 node`.
+# The `node` command requires one argument (a dotfile),
+# but if `find` returns no results,
+# then `xargs` will still call `node` one time with no arguments.
+#
+# GNU `find` has a `-r` / `--no-run-if-empty` flag to prevent this,
+# but it is not portable.  With GNU `find`, we can write
+#
+#     find | xargs -n 1 -r node
+#
+# Instead, we give `node` the `-r` / `--no-run-if-empty` flags,
+# so that we can portably write
+#
+#     find | xargs -n 1 node -r
+#
 command_node() {
 	DEBUG=
 	NO_RUN_IF_EMPTY=false
@@ -148,21 +163,6 @@ command_node() {
 		esac
 	done
 
-	# We typically get here from a `find | xargs -n 1 node`.
-	# The `node` command requires one argument (a dotfile),
-	# but if `find` returns no results,
-	# then `xargs` will still call `node` one time with no arguments.
-	#
-	# GNU `find` has a `-r` / `--no-run-if-empty` flag to prevent this,
-	# but it is not portable.  With GNU `find`, we can write
-	#
-	#     find | xargs -n 1 -r node
-	#
-	# Instead, we give `node` the `-r` / `--no-run-if-empty` flags,
-	# so that we can portably write
-	#
-	#     find | xargs -n 1 node -r
-	#
 	$NO_RUN_IF_EMPTY && test $# -eq 0 && return
 
 	test $# -eq 1 || nope
