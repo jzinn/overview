@@ -308,7 +308,7 @@ END {
 function process(    url, name, title) {
 	url = $0
 	name = $NF
-	NF--
+	$NF = ""
 	title = $0
 
 	iteration_middle(title)
