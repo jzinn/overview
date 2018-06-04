@@ -171,8 +171,15 @@ command_node() {
 
 	(
 		shift
-		exec xargs "$0" $DEBUG "$@"
+		query | xargs "$0" $DEBUG "$@"
 	) < "$1"
+}
+
+# If stdin is empty, then GNU xargs will call the command,
+# but BSD xargs will not.
+# So query must return something.
+query() {
+	grep '\S' || echo '-name *.html'
 }
 
 # control stdin to empty file
@@ -251,12 +258,10 @@ command_find() {
 		esac
 	done
 
-	test $# -ge 1 || nope
+	test $# -ge 2 || nope
 
 	cd "$1"
 	shift
-
-	test $# -eq 0 && set -- -name '*.html'
 
 	exec find . -mindepth 2 -type f \( "$@" \) "$PRINT"
 }
