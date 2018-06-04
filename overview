@@ -216,7 +216,7 @@ command_write() {
 
 	test $# -ge 2 || nope
 
-	if ! should_write "$1"
+	if ! should_write "$1" "$FORCE"
 	then
 		echo "Not writing \"$1\": a file may already exist but not contain the magic string" | die
 	fi
@@ -226,7 +226,7 @@ command_write() {
 }
 
 should_write() {
-	! test -e "$1" || { test -f "$1" && { $FORCE || has_magic < "$1"; }; }
+	! test -e "$1" || { test -f "$1" && { "$2" || has_magic < "$1"; }; }
 }
 
 has_magic() {
