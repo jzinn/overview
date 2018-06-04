@@ -274,6 +274,7 @@ command_find() {
 command_sort() {
 	REVERSE=
 	Z=0
+	ZERO_TERMINATED=
 
 	while test $# -ne 0
 	do
@@ -284,6 +285,7 @@ command_sort() {
 				;;
 			-z | --zero-terminated )
 				Z=1
+				ZERO_TERMINATED=-z
 				shift
 				;;
 			* )
@@ -297,7 +299,7 @@ command_sort() {
 
 	# Double up the last /, then sort, then remove the extra /.
 	awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/^.*\//,"&/")}1' |
-		sort -z -t / $REVERSE |
+		sort $ZERO_TERMINATED -t / $REVERSE |
 		awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/\/\//,"/")}1'
 }
 
