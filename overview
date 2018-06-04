@@ -7,7 +7,6 @@ set -o posix
 test -n "${BASH:-}" && set -o pipefail
 
 FORCE=false
-NO_RUN_IF_EMPTY=false
 NULL=
 PRINT_FLAG=-print
 
@@ -123,6 +122,7 @@ command_dotfiles() {
 
 command_node() {
 	DEBUG=
+	NO_RUN_IF_EMPTY=false
 
 	while test $# -ne 0
 	do
@@ -156,7 +156,7 @@ command_node() {
 	#
 	#     find | xargs -n 1 node -r
 	#
-	"$NO_RUN_IF_EMPTY" && test $# -eq 0 && return
+	$NO_RUN_IF_EMPTY && test $# -eq 0 && return
 
 	test $# -eq 1 || nope
 
