@@ -6,9 +6,6 @@ set -o posix
 
 test -n "${BASH:-}" && set -o pipefail
 
-NULL=
-PRINT_FLAG=-print
-
 main() {
 	test $# -ge 1 || nope
 
@@ -38,14 +35,14 @@ usage() {
 Usage:
     overview init [<directory>]
     overview tree [-d] [-f] [-j <n>] <directory>
-    overview dotfiles [-print] [-print0] [-f] <directory>
+    overview dotfiles [-z] [-f] <directory>
     overview node [-d] <file>
     overview debug [...]
     overview write [-f] <file> <directory> [expression]
     overview generate <directory> [expression]
     overview find <directory> [expression]
-    overview sort
-    overview html
+    overview sort [-z]
+    overview html [-z]
     overview help
 EOF
 }
@@ -101,11 +98,13 @@ command_tree() {
 }
 
 command_dotfiles() {
+	PRINT=-print
+
 	while test $# -ne 0
 	do
 		case "$1" in
-			-print | -print0 )
-				PRINT_FLAG="$1"
+			-z | --zero-terminated )
+				PRINT=-print0
 				shift
 				;;
 			* )
@@ -116,7 +115,7 @@ command_dotfiles() {
 
 	# Use depth-first traversal so that if --jobs is 1
 	# then ancestors can find overview*.hml files written by descendents.
-	exec find "$1" -depth -type f -name '.overview*' "$PRINT_FLAG"
+	exec find "$1" -depth -type f -name '.overview*' $PRINT
 }
 
 command_node() {
@@ -228,11 +227,25 @@ has_magic() {
 command_generate() {
 	test $# -ge 1 || nope
 
-	# "$0" find -z "$@" | "$0" sort -z | "$0" html -z
-	"$0" find "$@" | "$0" sort | "$0" html
+	"$0" find -z "$@" | "$0" sort -z | "$0" html -z
 }
 
 command_find() {
+	PRINT=-print
+
+	while test $# -ne 0
+	do
+		case "$1" in
+			-z | --zero-terminated )
+				PRINT=-print0
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
 	test $# -ge 1 || nope
 
 	cd "$1"
@@ -240,7 +253,7 @@ command_find() {
 
 	test $# -eq 0 && set -- -name '*.html'
 
-	exec find . -mindepth 2 -type f \( "$@" \)
+	exec find . -mindepth 2 -type f \( "$@" \) $PRINT
 }
 
 # Argh! I want to sort first on directory, and then by file name.
@@ -252,18 +265,52 @@ command_find() {
 # Also -1 looks like a flag.
 #
 command_sort() {
+	ZERO_TERMINATED=
+
+	while test $# -ne 0
+	do
+		case "$1" in
+			-z | --zero-terminated )
+				ZERO_TERMINATED=-0
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
+	# GNU sed has a -z option, but BSD sed does not.
+	# Use perl -0 instead.
+
 	# Double up the last /, then sort, then dedupe /.
-	sed -E 's/\/([^/]+)$/\/\/\1/' |
-		sort -t / |
-		sed 's/\/\//\//'
+	perl $ZERO_TERMINATED -ple 's|^(.*)/|$1//|' |
+		sort -z -t / |
+		perl $ZERO_TERMINATED -ple 's|//|/|'
 }
 
 command_html() {
+	ZERO_TERMINATED=0
+
+	while test $# -ne 0
+	do
+		case "$1" in
+			-z | --zero-terminated )
+				ZERO_TERMINATED=1
+				shift
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
 	test $# -eq 0 || nope
 
-	# RS="\0"
-	awk '
+	awk -v ZERO_TERMINATED=$ZERO_TERMINATED '
 BEGIN {
+	if (ZERO_TERMINATED)
+		RS="\0"
 	OFS = FS = "/"
 	print "<!doctype html>"
 	print "<!-- keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij -->"
