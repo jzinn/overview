@@ -93,7 +93,18 @@ command_tree() {
 
 	test $# -eq 1 || nope
 
+	# Sort the dotfiles so that if --jobs is 1
+	# then ancestors can find overview*.hml files written by descendents.
+	#
+	# POSIX specifies that find should have a -depth option
+	# that causes find to do a depth-first traversal.
+	# Both GNU find and BSD find support -depth.
+	# But it does not seem to work on macOS.
+	#
+	# Instead of find -depth, we do a reverse sort.
+
 	"$0" dotfiles -z "$1" |
+		"$0" sort -z -r |
 		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG --no-run-if-empty
 }
 
@@ -113,9 +124,7 @@ command_dotfiles() {
 		esac
 	done
 
-	# Use depth-first traversal so that if --jobs is 1
-	# then ancestors can find overview*.hml files written by descendents.
-	exec find "$1" -depth -type f -name '.overview*' $PRINT
+	exec find "$1" -type f -name '.overview*' $PRINT
 }
 
 command_node() {
@@ -265,11 +274,16 @@ command_find() {
 # Also -1 looks like a flag.
 #
 command_sort() {
+	REVERSE=
 	ZERO_TERMINATED=
 
 	while test $# -ne 0
 	do
 		case "$1" in
+			-r | --reverse )
+				REVERSE=-r
+				shift
+				;;
 			-z | --zero-terminated )
 				ZERO_TERMINATED=-0
 				shift
@@ -285,7 +299,7 @@ command_sort() {
 
 	# Double up the last /, then sort, then dedupe /.
 	perl $ZERO_TERMINATED -ple 's|^(.*)/|$1//|' |
-		sort -z -t / |
+		sort -z -t / $REVERSE |
 		perl $ZERO_TERMINATED -ple 's|//|/|'
 }
 
