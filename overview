@@ -228,7 +228,8 @@ has_magic() {
 command_generate() {
 	test $# -ge 1 || nope
 
-	"$0" find "$@" | "$0" html
+	# "$0" find -z "$@" | "$0" sort -z | "$0" html -z
+	"$0" find "$@" | "$0" sort | "$0" html
 }
 
 command_find() {
@@ -240,13 +241,6 @@ command_find() {
 	test $# -eq 0 && set -- -name '*.html'
 
 	exec find . -mindepth 2 -type f \( "$@" \)
-}
-
-command_html() {
-	test $# -eq 0 || nope
-
-	# sort -z | html -0
-	"$0" sort | html
 }
 
 # Argh! I want to sort first on directory, and then by file name.
@@ -264,7 +258,9 @@ command_sort() {
 		sed 's/\/\//\//'
 }
 
-html() {
+command_html() {
+	test $# -eq 0 || nope
+
 	# RS="\0"
 	awk '
 BEGIN {
