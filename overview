@@ -299,7 +299,7 @@ command_sort() {
 
 	# Double up the last /, then sort, then remove the extra /.
 	awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/^.*\//,"&/")}1' |
-		sort $ZERO_TERMINATED -t / $REVERSE |
+		sort -t / $REVERSE $ZERO_TERMINATED |
 		awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/\/\//,"/")}1'
 }
 
