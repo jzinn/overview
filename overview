@@ -66,6 +66,15 @@ command_init() {
 	fi
 }
 
+# Sort the dotfiles so that if --jobs is 1
+# then ancestors can find overview*.html files written by descendents.
+#
+# POSIX specifies that find should have a -depth option
+# that causes find to do a depth-first traversal.
+# Both GNU find and BSD find support -depth.
+# But it does not seem to work on macOS.
+#
+# Instead of find -depth, we do a reverse sort.
 command_tree() {
 	DEBUG=
 	JOBS=1
@@ -89,16 +98,6 @@ command_tree() {
 	done
 
 	test $# -eq 1 || nope
-
-	# Sort the dotfiles so that if --jobs is 1
-	# then ancestors can find overview*.html files written by descendents.
-	#
-	# POSIX specifies that find should have a -depth option
-	# that causes find to do a depth-first traversal.
-	# Both GNU find and BSD find support -depth.
-	# But it does not seem to work on macOS.
-	#
-	# Instead of find -depth, we do a reverse sort.
 
 	"$0" dotfiles -z "$1" |
 		"$0" sort -z -r |
