@@ -169,10 +169,7 @@ command_node() {
 	set -- "$1" "${1##*/}" "${1%/*}"
 	set -- "$1" write "$3/${2#.}.html" "$3"
 
-	(
-		shift
-		query | xargs "$0" $DEBUG "$@"
-	) < "$1"
+	( shift; query | xargs "$0" $DEBUG "$@"; ) < "$1"
 }
 
 # If stdin is empty, then GNU xargs will call the command,
