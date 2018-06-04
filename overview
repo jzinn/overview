@@ -167,6 +167,8 @@ command_node() {
 
 	# control stdin to empty file
 
+	echo "Processing dotfile \"$1\""
+
 	set -- "$1" "`basename -- "$1"`" "`dirname -- "$1"`"
 	set -- "$1" write "$3/${2#.}.html" "$3"
 
