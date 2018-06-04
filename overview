@@ -163,8 +163,6 @@ command_node() {
 
 	test $# -eq 1 || nope
 
-	# control stdin to empty file
-
 	echo "Processing dotfile \"$1\""
 
 	set -- "$1" "${1##*/}" "${1%/*}"
@@ -175,6 +173,8 @@ command_node() {
 		exec xargs "$0" $DEBUG "$@"
 	) < "$1"
 }
+
+# control stdin to empty file
 
 command_validate() {
 	find . -quit \( "$@" \) > /dev/null 2>&1
