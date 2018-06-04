@@ -6,7 +6,6 @@ set -o posix
 
 test -n "${BASH:-}" && set -o pipefail
 
-FORCE=false
 NULL=
 PRINT_FLAG=-print
 
@@ -192,15 +191,13 @@ command_debug() {
 }
 
 command_write() {
+	FORCE=false
+
 	while test $# -ne 0
 	do
 		case "$1" in
 			-f | --force )
 				FORCE=true
-				shift
-				;;
-			--no-force )
-				FORCE=false
 				shift
 				;;
 			* )
