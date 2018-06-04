@@ -40,7 +40,7 @@ Usage:
     overview debug [...]
     overview write [-f] <file> <directory> [expression]
     overview generate <directory> [expression]
-    overview find <directory> [expression]
+    overview find [-z] <directory> [expression]
     overview sort [-z]
     overview html [-z]
     overview help
