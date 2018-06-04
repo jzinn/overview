@@ -2,9 +2,8 @@
 set -eu
 
 # set -x
-set -o posix
 
-test -n "${BASH:-}" && set -o pipefail
+test -n "${BASH:-}" && set -o pipefail -o posix
 
 main() {
 	test $# -ge 1 || nope
