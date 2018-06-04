@@ -271,7 +271,6 @@ command_find() {
 #
 # Too bad sort doesn't allow negative indexes to count from the end.
 # Also -1 looks like a flag.
-#
 command_sort() {
 	REVERSE=
 	ZERO_TERMINATED=
