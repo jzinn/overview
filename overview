@@ -10,6 +10,7 @@ main() {
 
 	case "$1" in
 		init | tree | dotfiles | node | debug | write | generate | find | sort | html | help )
+			# shellcheck disable=SC2145
 			command_"$@"
 			;;
 		* )
