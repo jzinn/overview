@@ -169,12 +169,12 @@ command_node() {
 	set -- "$1" "${1##*/}" "${1%/*}"
 	set -- "$1" write "$3/${2#.}.html" "$3"
 
+	# If stdin is empty, then GNU xargs will call the command,
+	# but BSD xargs will not.
+	# So query must return something.
 	( shift; query | xargs "$0" $DEBUG "$@"; ) < "$1"
 }
 
-# If stdin is empty, then GNU xargs will call the command,
-# but BSD xargs will not.
-# So query must return something.
 query() {
 	grep '\S' || echo '-name *.html'
 }
