@@ -120,7 +120,7 @@ command_dotfiles() {
 		esac
 	done
 
-	exec find "$1" -type f -name '.overview*' $PRINT
+	exec find "$1" -type f -name '.overview*' "$PRINT"
 }
 
 # We typically get here from a `find | xargs -n 1 node`.
@@ -159,7 +159,7 @@ command_node() {
 		esac
 	done
 
-	$NO_RUN_IF_EMPTY && test $# -eq 0 && return
+	"$NO_RUN_IF_EMPTY" && test $# -eq 0 && return
 
 	test $# -eq 1 || nope
 
@@ -257,7 +257,7 @@ command_find() {
 
 	test $# -eq 0 && set -- -name '*.html'
 
-	exec find . -mindepth 2 -type f \( "$@" \) $PRINT
+	exec find . -mindepth 2 -type f \( "$@" \) "$PRINT"
 }
 
 # Argh! I want to sort first on directory, and then by file name.
@@ -315,7 +315,7 @@ command_html() {
 
 	test $# -eq 0 || nope
 
-	awk -v ZERO_TERMINATED=$ZERO_TERMINATED '
+	awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
 BEGIN {
 	if (ZERO_TERMINATED)
 		RS="\0"
