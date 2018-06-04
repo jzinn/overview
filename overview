@@ -49,6 +49,7 @@ Usage:
     overview write [-f] <file> <directory> [expression]
     overview generate <directory> [expression]
     overview find <directory> [expression]
+    overview sort
     overview html
     overview help
 EOF
