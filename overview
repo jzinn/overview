@@ -7,7 +7,6 @@ set -o posix
 test -n "${BASH:-}" && set -o pipefail
 
 FORCE=false
-JOBS=1
 NO_RUN_IF_EMPTY=false
 NULL=
 PRINT_FLAG=-print
@@ -77,6 +76,7 @@ init() {
 
 command_tree() {
 	DEBUG=
+	JOBS=1
 
 	while test $# -ne 0
 	do
@@ -98,7 +98,7 @@ command_tree() {
 
 	test $# -eq 1 || nope
 
-	"$0" dotfiles -print0 "$1" |
+	"$0" dotfiles -z "$1" |
 		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG --no-run-if-empty
 }
 
