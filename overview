@@ -324,7 +324,7 @@ command_html() {
 	awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
 BEGIN {
 	if (ZERO_TERMINATED)
-		RS="\0"
+		RS = "\0"
 	OFS = FS = "/"
 	print "<!doctype html>"
 	print "<!-- keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij -->"
