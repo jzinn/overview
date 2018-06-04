@@ -94,7 +94,7 @@ command_tree() {
 	test $# -eq 1 || nope
 
 	# Sort the dotfiles so that if --jobs is 1
-	# then ancestors can find overview*.hml files written by descendents.
+	# then ancestors can find overview*.html files written by descendents.
 	#
 	# POSIX specifies that find should have a -depth option
 	# that causes find to do a depth-first traversal.
