@@ -55,10 +55,8 @@ command_help() {
 command_init() {
 	test $# -eq 0 && set -- .
 	test $# -eq 1 || nope
-	init "$1/.overview"
-}
+	set -- "$1/.overview"
 
-init() {
 	if test -e "$1"
 	then
 		echo "Not initializing \"$1\": file already exists"
