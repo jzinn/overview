@@ -172,7 +172,7 @@ command_node() {
 	# If stdin is empty, then GNU xargs will call the command,
 	# but BSD xargs will not.
 	# So query must return something.
-	( shift; query | xargs "$0" $DEBUG "$@"; ) < "$1"
+	( shift; query | xargs "$0" $DEBUG "$@" ) < "$1"
 }
 
 query() {
