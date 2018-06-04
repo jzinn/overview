@@ -99,7 +99,7 @@ command_tree() {
 	test $# -eq 1 || nope
 
 	"$0" dotfiles -print0 "$1" |
-		xargs -0 -n 1 -P "$JOBS" "$0" node -r $DEBUG
+		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG -r
 }
 
 command_dotfiles() {
