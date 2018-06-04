@@ -273,7 +273,7 @@ command_find() {
 # Also -1 looks like a flag.
 command_sort() {
 	REVERSE=
-	ZERO_TERMINATED=
+	Z=0
 
 	while test $# -ne 0
 	do
@@ -283,7 +283,7 @@ command_sort() {
 				shift
 				;;
 			-z | --zero-terminated )
-				ZERO_TERMINATED=-0
+				Z=1
 				shift
 				;;
 			* )
@@ -293,13 +293,12 @@ command_sort() {
 	done
 
 	# GNU sed has a -z option, but BSD sed does not.
-	# Use perl -0 instead.
+	# Use awk instead.
 
 	# Double up the last /, then sort, then remove the extra /.
-	# TODO: Need to use some multi-line options?
-	perl $ZERO_TERMINATED -ple 's|^(.*)/|$1//|' |
+	awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/^.*\//,"&/")}1' |
 		sort -z -t / $REVERSE |
-		perl $ZERO_TERMINATED -ple 's|//|/|'
+		awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/\/\//,"/")}1'
 }
 
 command_html() {
