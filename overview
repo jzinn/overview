@@ -215,7 +215,11 @@ something() {
 # So query must return something.
 query() {
 	# grep --passthrough '\S', if grep supported --passthrough
-	awk '/\S/{m=1}END{exit!m}1' || printf -- '-name *.html\n'
+	awk '/\S/{m=1}END{exit!m}1' || default
+}
+
+default() {
+	printf -- '-name *.html\n'
 }
 
 command_test() {
