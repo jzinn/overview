@@ -188,7 +188,7 @@ command_node() {
 
 	echo "Processing dotfile \"$1\""
 
-	if ! "$0" validate "$1" > /dev/null 2>&1
+	if ! "$0" validate -q -- "$1"
 	then
 		echo 'Dotfile is invalid!  To find out why, run'
 		echo
@@ -204,6 +204,27 @@ command_node() {
 }
 
 command_validate() {
+	QUIET=false
+	QUIET_FLAG=
+
+	while test $# -ne 0
+	do
+		case "$1" in
+			-q | --quiet )
+				QUIET=true
+				QUIET_FLAG=-q
+				shift
+				;;
+			-- )
+				shift
+				break
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
 	test $# -eq 1 || nope
 
 	if ! test -f "$1"
@@ -211,9 +232,12 @@ command_validate() {
 		echo "Not validating \"$1\": file does not exist" | die
 	fi
 
-	something < "$1" | sed 's/^/dotfile contents: /'
+	if ! $QUIET
+	then
+		something < "$1" | sed 's/^/dotfile contents: /'
+	fi
 
-	query < "$1" | xargs "$0" test
+	query < "$1" | xargs "$0" test $QUIET_FLAG --
 
 }
 
@@ -238,13 +262,36 @@ default() {
 }
 
 command_test() {
+	QUIET=false
+
+	while test $# -ne 0
+	do
+		case "$1" in
+			-q | --quiet )
+				QUIET=true
+				shift
+				;;
+			-- )
+				shift
+				break
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
 	set -- find . -quit \( "$@" \)
 
-	printf 'test command:'
-	printf ' "%s"' "$@"
-	printf '\n'
-
-	exec "$@"
+	if ! $QUIET
+	then
+		printf 'test command:'
+		printf ' "%s"' "$@"
+		printf '\n'
+		exec "$@"
+	else
+		exec "$@" > /dev/null 2>&1
+	fi
 }
 
 command_debug() {
