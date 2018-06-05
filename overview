@@ -206,7 +206,7 @@ command_validate() {
 }
 
 something() {
-	awk '1{m=1}END{exit!m}1' || echo
+	passthrough 1 echo
 }
 
 # This is typically used via a query | xargs pipeline.
@@ -215,7 +215,11 @@ something() {
 # So query must return something.
 query() {
 	# grep --passthrough '\S', if grep supported --passthrough
-	awk '/\S/{m=1}END{exit!m}1' || default
+	passthrough '/\S/' default
+}
+
+passthrough() {
+	awk "$1"'{m=1}END{exit!m}1' || "$2"
 }
 
 default() {
