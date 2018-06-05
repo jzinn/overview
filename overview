@@ -96,7 +96,7 @@ dotfile_init_root() {
 init() {
 	if test -e "$1"
 	then
-		echo "Not initializing \"$1\": file already exists"
+		echo "Not initializing \"$1\": file already exists" | die
 	else
 		"$2" > "$1"
 		echo "Initialized in \"$1\""
