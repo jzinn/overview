@@ -191,11 +191,6 @@ command_node() {
 	fi
 }
 
-query() {
-	# grep --passthrough '\S', if grep supported --passthrough
-	awk '/\S/{m=1}END{exit!m}1' || printf -- '-name *.html\n'
-}
-
 command_validate() {
 	test $# -eq 1 || nope
 
@@ -206,6 +201,11 @@ command_validate() {
 
 	query < "$1" | xargs "$0" test
 
+}
+
+query() {
+	# grep --passthrough '\S', if grep supported --passthrough
+	awk '/\S/{m=1}END{exit!m}1' || printf -- '-name *.html\n'
 }
 
 command_test() {
