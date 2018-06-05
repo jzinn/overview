@@ -182,7 +182,7 @@ command_node() {
 	# If stdin is empty, then GNU xargs will call the command,
 	# but BSD xargs will not.
 	# So query must return something.
-	if ! query < "$1" | xargs "$0" validate
+	if ! query < "$1" | xargs "$0" validate > /dev/null 2>&1
 	then
 		echo 'Dotfile is invalid!'
 	else
@@ -196,7 +196,13 @@ query() {
 }
 
 command_validate() {
-	exec find . -quit \( "$@" \) > /dev/null 2>&1
+	set -- find . -quit \( "$@" \)
+
+	printf validate:
+	printf ' "%s"' "$@"
+	printf '\n'
+
+	exec "$@"
 }
 
 command_debug() {
