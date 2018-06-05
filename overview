@@ -78,7 +78,7 @@ command_init() {
 	test $# -eq 0 && set -- .
 	test $# -eq 1 || nope
 
-	dotfile_init_"$INIT" "$1" dotfile_"$INIT"
+	dotfile_init_"$INIT" "$1" dotfile_contents_"$INIT"
 }
 
 dotfile_init_default() {
@@ -103,15 +103,15 @@ init() {
 	fi
 }
 
-dotfile_default() {
+dotfile_contents_default() {
 	printf ''
 }
 
-dotfile_all() {
+dotfile_contents_all() {
 	printf '%s\n' '-true'
 }
 
-dotfile_root() {
+dotfile_contents_root() {
 	printf '%s\n' '-name overview*.html'
 }
 
