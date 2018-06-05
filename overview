@@ -9,7 +9,7 @@ main() {
 	test $# -ge 1 || nope
 
 	case "$1" in
-		init | tree | dotfiles | node | validate | debug | write | generate | find | sort | html | help )
+		init | tree | dotfiles | node | validate | test | debug | write | generate | find | sort | html | help )
 			# shellcheck disable=SC2145
 			command_"$@"
 			;;
@@ -182,7 +182,7 @@ command_node() {
 	# If stdin is empty, then GNU xargs will call the command,
 	# but BSD xargs will not.
 	# So query must return something.
-	if ! query < "$1" | xargs "$0" validate > /dev/null 2>&1
+	if ! "$0" validate "$1" > /dev/null 2>&1
 	then
 		echo 'Dotfile is invalid!'
 	else
@@ -197,9 +197,21 @@ query() {
 }
 
 command_validate() {
+	test $# -eq 1 || nope
+
+	if ! test -f "$1"
+	then
+		echo "Not validating \"$1\": file does not exist" | die
+	fi
+
+	query < "$1" | xargs "$0" test
+
+}
+
+command_test() {
 	set -- find . -quit \( "$@" \)
 
-	printf validate:
+	printf test:
 	printf ' "%s"' "$@"
 	printf '\n'
 
