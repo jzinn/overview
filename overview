@@ -29,7 +29,7 @@ die() {
 usage() {
 	cat <<'EOF'
 Usage:
-    overview init [<directory>]
+    overview init [-a] [-r] [<directory>]
     overview tree [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-z] <directory>
     overview node [-d] [-f] [-r] <file>
@@ -52,6 +52,29 @@ command_help() {
 }
 
 command_init() {
+	CONTENTS=default
+
+	while test $# -ne 0
+	do
+		case "$1" in
+			-a | --all )
+				CONTENTS=all
+				shift
+				;;
+			-r | --root )
+				CONTENTS=root
+				shift
+				;;
+			-- )
+				shift
+				break
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
 	test $# -eq 0 && set -- .
 	test $# -eq 1 || nope
 	set -- "$1/.overview"
@@ -60,9 +83,21 @@ command_init() {
 	then
 		echo "Not initializing \"$1\": file already exists"
 	else
-		touch "$1"
+		dotfile_"$CONTENTS" > "$1"
 		echo "Initialized in \"$1\""
 	fi
+}
+
+dotfile_default() {
+	printf ''
+}
+
+dotfile_all() {
+	printf '%s\n' '-true'
+}
+
+dotfile_root() {
+	printf '%s\n' '-name overview*.html'
 }
 
 # Sort the dotfiles so that if --jobs is 1
