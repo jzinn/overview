@@ -37,6 +37,8 @@ Usage:
     overview tree [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-z] <directory>
     overview node [-d] [-f] [-r] <file>
+    overview validate [-q] <file>
+    overview test [-q] [<expression>]
     overview debug [...]
     overview write [-f] <file> <directory> <expression>
     overview generate <directory> <expression>
