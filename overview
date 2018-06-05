@@ -35,7 +35,7 @@ usage() {
 Usage:
     overview init [<directory>]
     overview tree [-d] [-f] [-j <n>] <directory>
-    overview dotfiles [-z] [-f] <directory>
+    overview dotfiles [-f] [-z] <directory>
     overview node [-d] [-f] <file>
     overview debug [...]
     overview write [-f] <file> <directory> <expression>
