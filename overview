@@ -9,7 +9,7 @@ main() {
 	test $# -ge 1 || nope
 
 	case "$1" in
-		init | tree | dotfiles | node | debug | write | generate | find | sort | html | help )
+		init | tree | dotfiles | node | validate | debug | write | generate | find | sort | html | help )
 			# shellcheck disable=SC2145
 			command_"$@"
 			;;
@@ -172,7 +172,12 @@ command_node() {
 	# If stdin is empty, then GNU xargs will call the command,
 	# but BSD xargs will not.
 	# So query must return something.
-	( shift; query | xargs "$0" $DEBUG write "$1" "$2" ) < "$1"
+	if ! { query | xargs "$0" validate; } < "$1"
+	then
+		echo 'Dotfile is invalid!'
+	else
+		( shift; query | xargs "$0" $DEBUG write "$1" "$2" ) < "$1"
+	fi
 }
 
 query() {
@@ -183,7 +188,7 @@ query() {
 # control stdin to empty file
 
 command_validate() {
-	find . -quit \( "$@" \) > /dev/null 2>&1
+	exec find . -quit \( "$@" \) > /dev/null 2>&1
 }
 
 command_debug() {
