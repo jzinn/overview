@@ -382,13 +382,6 @@ command_find() {
 	exec find . -mindepth 2 -type f \( "$@" \) "$PRINT"
 }
 
-# Argh! I want to sort first on directory, and then by file name.
-# I need
-#
-#     sort -t / -k 1,-1 -k -1
-#
-# Too bad sort doesn't allow negative indexes to count from the end.
-# Also -1 looks like a flag.
 command_sort() {
 	REVERSE=
 	Z=0
