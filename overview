@@ -1,10 +1,6 @@
 #!/bin/sh
 set -eu
 
-# set -x
-
-# test -n "${BASH:-}" && set -o pipefail -o posix
-
 main() {
 	test $# -ge 1 || nope
 
