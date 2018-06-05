@@ -199,6 +199,8 @@ command_validate() {
 		echo "Not validating \"$1\": file does not exist" | die
 	fi
 
+	query < "$1" | sed 's/^/dotfile contents: /'
+
 	query < "$1" | xargs "$0" test
 
 }
