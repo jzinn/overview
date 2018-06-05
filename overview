@@ -109,9 +109,9 @@ command_tree() {
 
 	test $# -eq 1 || nope
 
-	"$0" dotfiles -z "$1" |
+	"$0" dotfiles -z -- "$1" |
 		"$0" sort -z -r |
-		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG $FORCE --no-run-if-empty
+		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG $FORCE --no-run-if-empty --
 }
 
 command_dotfiles() {
@@ -199,7 +199,7 @@ command_node() {
 		set -- "$1" "$3/${2#.}.html" "$3"
 
 		# shellcheck disable=SC2094
-		( shift; query | xargs "$0" $DEBUG write $FORCE "$1" "$2" ) < "$1"
+		( shift; query | xargs "$0" $DEBUG write $FORCE -- "$1" "$2" ) < "$1"
 	fi
 }
 
@@ -302,7 +302,7 @@ has_magic() {
 command_generate() {
 	test $# -ge 1 || nope
 
-	"$0" find -z "$@" | "$0" sort -z | "$0" html -z
+	"$0" find -z -- "$@" | "$0" sort -z | "$0" html -z
 }
 
 command_find() {
