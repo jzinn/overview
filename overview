@@ -36,7 +36,7 @@ Usage:
     overview init [<directory>]
     overview tree [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-z] [-f] <directory>
-    overview node [-d] <file>
+    overview node [-d] [-f] <file>
     overview debug [...]
     overview write [-f] <file> <directory> <expression>
     overview generate <directory> <expression>
@@ -78,6 +78,7 @@ command_init() {
 # Instead of find -depth, we do a reverse sort.
 command_tree() {
 	DEBUG=
+	FORCE=
 	JOBS=1
 
 	while test $# -ne 0
@@ -85,6 +86,10 @@ command_tree() {
 		case "$1" in
 			-d | --debug )
 				DEBUG=-d
+				shift
+				;;
+			-f | --force )
+				FORCE=-f
 				shift
 				;;
 			-j | --jobs )
@@ -102,7 +107,7 @@ command_tree() {
 
 	"$0" dotfiles -z "$1" |
 		"$0" sort -z -r |
-		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG --no-run-if-empty
+		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG $FORCE --no-run-if-empty
 }
 
 command_dotfiles() {
@@ -141,6 +146,7 @@ command_dotfiles() {
 #
 command_node() {
 	DEBUG=
+	FORCE=
 	NO_RUN_IF_EMPTY=false
 
 	while test $# -ne 0
@@ -148,6 +154,10 @@ command_node() {
 		case "$1" in
 			-d | --debug )
 				DEBUG=debug
+				shift
+				;;
+			-f | --force )
+				FORCE=-f
 				shift
 				;;
 			-r | --no-run-if-empty )
@@ -176,7 +186,7 @@ command_node() {
 	then
 		echo 'Dotfile is invalid!'
 	else
-		( shift; query | xargs "$0" $DEBUG write "$1" "$2" ) < "$1"
+		( shift; query | xargs "$0" $DEBUG write $FORCE "$1" "$2" ) < "$1"
 	fi
 }
 
