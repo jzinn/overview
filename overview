@@ -83,13 +83,13 @@ command_tree() {
 	while test $# -ne 0
 	do
 		case "$1" in
+			-d | --debug )
+				DEBUG=-d
+				shift
+				;;
 			-j | --jobs )
 				shift
 				JOBS="$1"
-				shift
-				;;
-			-d | --debug )
-				DEBUG=-d
 				shift
 				;;
 			* )
