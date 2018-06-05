@@ -214,7 +214,6 @@ something() {
 # but BSD xargs will not.
 # So query must return something.
 query() {
-	# grep --passthrough '\S', if grep supported --passthrough
 	passthrough '/\S/' default
 }
 
