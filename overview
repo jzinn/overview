@@ -137,12 +137,12 @@ command_dotfiles() {
 # GNU `find` has a `-r` / `--no-run-if-empty` flag to prevent this,
 # but it is not portable.  With GNU `find`, we can write
 #
-#     find | xargs -n 1 -r node
+#     find | xargs -n 1 --no-run-if-empty node
 #
 # Instead, we give `node` the `-r` / `--no-run-if-empty` flags,
 # so that we can portably write
 #
-#     find | xargs -n 1 node -r
+#     find | xargs -n 1 node --no-run-if-empty
 #
 command_node() {
 	DEBUG=
