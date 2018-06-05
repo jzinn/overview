@@ -199,10 +199,14 @@ command_validate() {
 		echo "Not validating \"$1\": file does not exist" | die
 	fi
 
-	query < "$1" | sed 's/^/dotfile contents: /'
+	something < "$1" | sed 's/^/dotfile contents: /'
 
 	query < "$1" | xargs "$0" test
 
+}
+
+something() {
+	awk '1{m=1}END{exit!m}1' || echo
 }
 
 # This is typically used via a query | xargs pipeline.
