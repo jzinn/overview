@@ -195,8 +195,6 @@ query() {
 	awk '/\S/{m=1}END{exit!m}1' || printf -- '-name *.html\n'
 }
 
-# control stdin to empty file
-
 command_validate() {
 	exec find . -quit \( "$@" \) > /dev/null 2>&1
 }
