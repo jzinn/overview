@@ -35,13 +35,13 @@ usage() {
 Usage:
     overview init [<directory>]
     overview tree [-d] [-f] [-j <n>] <directory>
-    overview dotfiles [-f] [-z] <directory>
-    overview node [-d] [-f] <file>
+    overview dotfiles [-z] <directory>
+    overview node [-d] [-f] [-r] <file>
     overview debug [...]
     overview write [-f] <file> <directory> <expression>
     overview generate <directory> <expression>
     overview find [-z] <directory> <expression>
-    overview sort [-z]
+    overview sort [-r] [-z]
     overview html [-z]
     overview help
 EOF
