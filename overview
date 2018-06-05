@@ -104,15 +104,15 @@ init() {
 }
 
 dotfile_contents_default() {
-	printf ''
+	printf -- ''
 }
 
 dotfile_contents_all() {
-	printf '%s\n' '-true'
+	printf -- '-true\n'
 }
 
 dotfile_contents_root() {
-	printf '%s\n' '-name overview*.html'
+	printf -- '-name overview*.html\n'
 }
 
 # Sort the dotfiles so that if --jobs is 1
@@ -333,9 +333,9 @@ command_test() {
 
 	if ! $QUIET
 	then
-		printf 'test command:'
-		printf ' "%s"' "$@"
-		printf '\n'
+		printf -- 'test command:'
+		printf -- ' "%s"' "$@"
+		printf -- '\n'
 		exec "$@"
 	else
 		exec "$@" > /dev/null 2>&1
@@ -343,16 +343,16 @@ command_test() {
 }
 
 command_debug() {
-	printf debug:
+	printf -- 'debug:'
 
 	if test $# -eq 0
 	then
-		printf ' No arguments'
+		printf -- ' No arguments'
 	else
-		printf ' "%s"' "$@"
+		printf -- ' "%s"' "$@"
 	fi
 
-	printf '\n'
+	printf -- '\n'
 }
 
 command_write() {
