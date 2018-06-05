@@ -186,6 +186,7 @@ command_node() {
 	then
 		echo 'Dotfile is invalid!'
 	else
+		# shellcheck disable=SC2094
 		( shift; query | xargs "$0" $DEBUG write $FORCE "$1" "$2" ) < "$1"
 	fi
 }
