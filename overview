@@ -104,7 +104,7 @@ init() {
 }
 
 dotfile_contents_default() {
-	printf -- ''
+	true
 }
 
 dotfile_contents_all() {
