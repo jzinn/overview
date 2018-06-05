@@ -97,6 +97,10 @@ command_tree() {
 				JOBS="$1"
 				shift
 				;;
+			-- )
+				shift
+				break
+				;;
 			* )
 				break
 				;;
@@ -119,6 +123,10 @@ command_dotfiles() {
 			-z | --zero-terminated )
 				PRINT=-print0
 				shift
+				;;
+			-- )
+				shift
+				break
 				;;
 			* )
 				break
@@ -163,6 +171,10 @@ command_node() {
 			-r | --no-run-if-empty )
 				NO_RUN_IF_EMPTY=true
 				shift
+				;;
+			-- )
+				shift
+				break
 				;;
 			* )
 				break
@@ -258,6 +270,10 @@ command_write() {
 				FORCE=true
 				shift
 				;;
+			-- )
+				shift
+				break
+				;;
 			* )
 				break
 				;;
@@ -299,6 +315,10 @@ command_find() {
 				PRINT=-print0
 				shift
 				;;
+			-- )
+				shift
+				break
+				;;
 			* )
 				break
 				;;
@@ -337,6 +357,10 @@ command_sort() {
 				ZERO_TERMINATED=-z
 				shift
 				;;
+			-- )
+				shift
+				break
+				;;
 			* )
 				break
 				;;
@@ -361,6 +385,10 @@ command_html() {
 			-z | --zero-terminated )
 				ZERO_TERMINATED=1
 				shift
+				;;
+			-- )
+				shift
+				break
 				;;
 			* )
 				break
