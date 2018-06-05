@@ -290,7 +290,7 @@ command_validate() {
 }
 
 something() {
-	passthrough 1 echo
+	passthrough '' echo
 }
 
 # This is typically used via a query | xargs pipeline.
