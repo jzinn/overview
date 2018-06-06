@@ -495,7 +495,7 @@ command_html() {
 
 	test $# -eq 0 || nope
 
-	awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
+	exec awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
 BEGIN {
 	if (ZERO_TERMINATED)
 		RS = "\0"
