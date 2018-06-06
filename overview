@@ -267,9 +267,7 @@ command_node() {
 		set -- "$1" "${1##*/}" "${1%/*}"
 		set -- "$1" "$3/${2#.}.html" "$3"
 
-		# shellcheck disable=SC2094
-		# SC2094: Make sure not to read and write the same file in the same pipeline.
-		( shift; query | xargs "$0" $DEBUG write $FORCE -- "$1" "$2" ) < "$1"
+		query "$1" | ( shift; xargs "$0" $DEBUG write $FORCE -- "$1" "$2" )
 	fi
 }
 
@@ -304,14 +302,15 @@ command_validate() {
 
 	if ! "$QUIET"
 	then
-		something < "$1" | sed 's/^/dotfile contents: /'
+		if grep -q '\S' "$1"
+		then
+			sed 's/^/dotfile contents: /' "$1"
+		else
+			echo 'Dotfile is blank'
+		fi
 	fi
 
-	query < "$1" | xargs "$0" test $QUIET_FLAG --
-}
-
-something() {
-	passthrough '' echo
+	query "$1" | xargs "$0" test $QUIET_FLAG --
 }
 
 # This is typically used via a query | xargs pipeline.
@@ -319,15 +318,12 @@ something() {
 # but BSD xargs will not.
 # So query must return something.
 query() {
-	passthrough '/\S/' default
-}
-
-passthrough() {
-	awk "$1"'{m=1}END{exit!m}1' || "$2"
-}
-
-default() {
-	printf -- '-name *.html\n'
+	if grep -q '\S' "$1"
+	then
+		cat "$1"
+	else
+		printf -- '-name *.html\n'
+	fi
 }
 
 command_test() {
