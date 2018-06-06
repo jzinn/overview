@@ -541,6 +541,7 @@ END {
 	iteration_end()
 	print ""
 	print "    </ol>"
+	print "    <p>" NR " files</p>"
 	print "  </main>"
 	print "</body>"
 	print "</html>"
