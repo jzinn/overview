@@ -51,7 +51,7 @@ EOF
 
 shellquote() {
 	printf -- '%s\0' "$1" |
-		awk 'BEGIN{RS="\0"}{gsub(/[^0-9A-Za-z/_.-]/,"\\\\&")}1'
+		awk 'BEGIN{RS="\0"}{gsub(/[^0-9A-Za-z\/_.-]/,"\\\\&")}1'
 }
 
 command_help() {
