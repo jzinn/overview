@@ -9,7 +9,7 @@ main() {
 	test $# -ge 1 || nope
 
 	case "$1" in
-		init | tree | dotfiles | node | validate | test | debug | write | generate | find | sort | html | help )
+		init | tree | dotfiles | node | validate | test | debug | write | list | find | sort | html | help )
 			# shellcheck disable=SC2145
 			# SC2145: Argument mixes string and array.
 			command_"$@"
@@ -42,7 +42,7 @@ Usage:
     overview test [-q] [<expression>]
     overview debug [...]
     overview write [-f] <file> <directory> <expression>
-    overview generate <directory> <expression>
+    overview list <directory> <expression>
     overview find [-z] <directory> <expression>
     overview sort [-r] [-z]
     overview html [-z]
@@ -393,7 +393,7 @@ command_write() {
 		echo "Not writing `shellquote "$1"`: a file may already exist but not contain the magic string" | die
 	fi
 
-	( shift; "$0" generate "$@" ) > "$1"
+	( shift; "$0" list "$@" ) > "$1"
 	echo "Wrote `shellquote "$1"`"
 }
 
@@ -405,7 +405,7 @@ has_magic() {
 	head | grep -q "keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij"
 }
 
-command_generate() {
+command_list() {
 	test $# -ge 1 || nope
 
 	"$0" find -z -- "$@" | "$0" sort -z | "$0" html -z
