@@ -291,7 +291,7 @@ command_validate() {
 		echo "Not validating `shellquote "$1"`: file does not exist" | die
 	fi
 
-	if ! $QUIET
+	if ! "$QUIET"
 	then
 		something < "$1" | sed 's/^/dotfile contents: /'
 	fi
@@ -342,7 +342,7 @@ command_test() {
 
 	set -- find . -quit \( "$@" \)
 
-	if ! $QUIET
+	if ! "$QUIET"
 	then
 		printf -- 'test command:'
 		printf -- ' "%s"' "$@"
