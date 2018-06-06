@@ -304,7 +304,7 @@ command_validate() {
 	then
 		if grep -q '\S' "$1"
 		then
-			sed 's/^/dotfile contents: /' "$1"
+			sed 's/^/Dotfile contents: /' "$1"
 		else
 			echo 'Dotfile is blank'
 		fi
@@ -352,7 +352,7 @@ command_test() {
 
 	if ! "$QUIET"
 	then
-		printf -- 'test command:'
+		printf -- 'Test command:'
 		printf -- ' "%s"' "$@"
 		printf -- '\n'
 		exec "$@"
