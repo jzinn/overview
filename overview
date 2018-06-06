@@ -406,7 +406,7 @@ has_magic() {
 }
 
 command_list() {
-	test $# -ge 1 || nope
+	test $# -ge 2 || nope
 
 	"$0" find -z -- "$@" | "$0" sort -z | "$0" html -z
 }
