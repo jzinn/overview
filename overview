@@ -5,6 +5,15 @@
 
 set -eu
 
+# # BSD sed lacks the -z / --zero-terminated flag.
+# # BSD awk exits after one line when RS is set to "\0".
+# # Therefore, we have to resort to perl -0.
+# if ! command -v perl > /dev/null 2>$1
+# then
+# 	echo 'perl is required but not available'
+# 	exit 1
+# fi
+
 main() {
 	test $# -ge 1 || nope
 
