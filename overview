@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# shellcheck disable=SC2006
+# SC2006: Use $(..) instead of legacy `..`
+
 set -eu
 
 main() {
@@ -43,6 +47,11 @@ Usage:
     overview html [-z]
     overview help
 EOF
+}
+
+shellquote() {
+	printf -- '%s\0' "$1" |
+		awk 'BEGIN{RS="\0"}{gsub(/[^0-9A-Za-z/_.-]/,"\\\\&")}1'
 }
 
 command_help() {
@@ -96,10 +105,10 @@ dotfile_init_root() {
 init() {
 	if test -e "$1"
 	then
-		echo "Not initializing \"$1\": file already exists" | die
+		echo "Not initializing `shellquote "$1"`: file already exists" | die
 	else
 		"$2" > "$1"
-		echo "Initialized in \"$1\""
+		echo "Initialized in `shellquote "$1"`"
 	fi
 }
 
@@ -234,13 +243,13 @@ command_node() {
 
 	test $# -eq 1 || nope
 
-	echo "Processing dotfile \"$1\""
+	echo "Processing dotfile `shellquote "$1"`"
 
 	if ! "$0" validate -q -- "$1"
 	then
 		echo 'Dotfile is invalid!  To find out why, run'
 		echo
-		echo "    \"$0\" validate \"$1\""
+		echo "    `shellquote "$0"` validate `shellquote "$1"`"
 		echo
 	else
 		set -- "$1" "${1##*/}" "${1%/*}"
@@ -277,7 +286,7 @@ command_validate() {
 
 	if ! test -f "$1"
 	then
-		echo "Not validating \"$1\": file does not exist" | die
+		echo "Not validating `shellquote "$1"`: file does not exist" | die
 	fi
 
 	if ! $QUIET
@@ -379,11 +388,11 @@ command_write() {
 
 	if ! should_write "$1" "$FORCE"
 	then
-		echo "Not writing \"$1\": a file may already exist but not contain the magic string" | die
+		echo "Not writing `shellquote "$1"`: a file may already exist but not contain the magic string" | die
 	fi
 
 	( shift; "$0" generate "$@" ) > "$1"
-	echo "Wrote \"$1\""
+	echo "Wrote `shellquote "$1"`"
 }
 
 should_write() {
