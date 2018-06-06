@@ -9,7 +9,7 @@ main() {
 	test $# -ge 1 || nope
 
 	case "$1" in
-		init | tree | dotfiles | node | validate | test | debug | write | list | find | sort | html | help )
+		init | root | dotfiles | node | validate | test | debug | write | list | find | sort | html | help )
 			# shellcheck disable=SC2145
 			# SC2145: Argument mixes string and array.
 			command_"$@"
@@ -35,7 +35,7 @@ usage() {
 	cat <<'EOF'
 Usage:
     overview init [-a] [-r] [<directory>]
-    overview tree [-d] [-f] [-j <n>] <directory>
+    overview root [-d] [-f] [-j <n>] <directory>
     overview dotfiles [-z] <directory>
     overview node [-d] [-f] [-r] <file>
     overview validate [-q] <file>
@@ -134,7 +134,7 @@ dotfile_contents_root() {
 # But it does not seem to work on macOS.
 #
 # Instead of find -depth, we do a reverse sort.
-command_tree() {
+command_root() {
 	DEBUG=
 	FORCE=
 	JOBS=1
