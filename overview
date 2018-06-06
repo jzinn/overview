@@ -308,7 +308,6 @@ command_validate() {
 	fi
 
 	query < "$1" | xargs "$0" test $QUIET_FLAG --
-
 }
 
 something() {
