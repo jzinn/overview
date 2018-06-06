@@ -201,6 +201,8 @@ command_dotfiles() {
 		esac
 	done
 
+	test $# -eq 1 || nope
+
 	exec find "$1" -type f -name '.overview*' "$PRINT"
 }
 
@@ -349,6 +351,8 @@ command_test() {
 		esac
 	done
 
+	# test $# -ge 0 || nope
+
 	set -- find . -quit \( "$@" \)
 
 	if ! "$QUIET"
@@ -363,6 +367,8 @@ command_test() {
 }
 
 command_debug() {
+	# test $# -ge 0 || nope
+
 	printf -- 'debug:'
 
 	if test $# -eq 0
@@ -474,6 +480,8 @@ command_sort() {
 				;;
 		esac
 	done
+
+	test $# -eq 0 || nope
 
 	# GNU sed has a -z option, but BSD sed does not.
 	# Use awk instead.
