@@ -509,6 +509,8 @@ command_html() {
 
 	test $# -eq 0 || nope
 
+	# shellcheck disable=SC2016
+	# SC2016: Expressions don't expand in single quotes, use double quotes for that.
 	exec awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
 BEGIN {
 	if (ZERO_TERMINATED)
