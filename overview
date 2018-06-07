@@ -352,9 +352,7 @@ command_test() {
 
 	if ! "$QUIET"
 	then
-		printf -- 'Test command:'
-		printf -- ' "%s"' "$@"
-		printf -- '\n'
+		debug 'Test command:' "$@"
 		exec "$@"
 	else
 		exec "$@" > /dev/null 2>&1
@@ -364,13 +362,22 @@ command_test() {
 command_debug() {
 	# test $# -ge 0 || nope
 
-	printf -- 'debug:'
+	debug 'debug:' "$@"
+}
+
+debug() {
+	printf -- "$1"
+	shift
 
 	if test $# -eq 0
 	then
 		printf -- ' No arguments'
 	else
-		printf -- ' "%s"' "$@"
+		while test $# -ne 0
+		do
+			printf -- ' %s' "`shellquote "$1"`"
+			shift
+		done
 	fi
 
 	printf -- '\n'
