@@ -6,6 +6,8 @@
 set -eu
 
 main() {
+	# require_perl
+
 	test $# -ge 1 || nope
 
 	case "$1" in
@@ -18,6 +20,16 @@ main() {
 			nope
 			;;
 	esac
+}
+
+# BSD sed lacks the -z / --zero-terminated flag.
+# BSD awk exits after one line when RS is set to "\0".
+# Therefore, we have to resort to perl -0.
+require_perl() {
+	if ! command -v perl > /dev/null 2>$1
+	then
+		echo 'Perl is required but not available' | die
+	fi
 }
 
 nope() {
@@ -48,16 +60,6 @@ Usage:
     overview html [-z]
     overview help
 EOF
-}
-
-# BSD sed lacks the -z / --zero-terminated flag.
-# BSD awk exits after one line when RS is set to "\0".
-# Therefore, we have to resort to perl -0.
-require_perl() {
-	if ! command -v perl > /dev/null 2>$1
-	then
-		echo 'Perl is required but not available' | die
-	fi
 }
 
 shellquote() {
