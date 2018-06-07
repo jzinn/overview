@@ -314,7 +314,7 @@ command_validate() {
 
 	if ! "$QUIET"
 	then
-		if grep -q '\S' "$1"
+		if present "$1"
 		then
 			sed 's/^/Dotfile contents: /' "$1"
 		else
@@ -330,12 +330,16 @@ command_validate() {
 # but BSD xargs will not.
 # So query must return something.
 query() {
-	if grep -q '\S' "$1"
+	if present "$1"
 	then
 		cat "$1"
 	else
 		printf -- '-name *.html\n'
 	fi
+}
+
+present() {
+	grep -q '\S' "$1"
 }
 
 command_test() {
