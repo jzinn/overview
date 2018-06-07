@@ -366,7 +366,7 @@ command_debug() {
 }
 
 debug() {
-	printf -- "$1"
+	printf -- '%s' "$1"
 	shift
 
 	if test $# -eq 0
