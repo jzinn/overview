@@ -23,7 +23,7 @@ main() {
 }
 
 # BSD sed lacks the -z / --zero-terminated flag.
-# BSD awk exits after one line when RS is set to "\0".
+# BSD awk exits after processing one line when RS is set to "\0".
 # Therefore, we have to resort to perl -0.
 require_perl() {
 	if ! command -v perl > /dev/null 2>&1
