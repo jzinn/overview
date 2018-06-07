@@ -10,7 +10,7 @@ set -eu
 # # Therefore, we have to resort to perl -0.
 # if ! command -v perl > /dev/null 2>$1
 # then
-# 	echo 'Perl is required but not available'
+# 	echo 'Perl is required but not available' >&2
 # 	exit 1
 # fi
 
