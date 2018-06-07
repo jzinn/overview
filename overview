@@ -563,7 +563,10 @@ END {
 	iteration_end()
 	print ""
 	print "    </ol>"
-	print "    <p>" NR " files</p>"
+	if (NR == 1)
+		print "    <p>1 file</p>"
+	else
+		print "    <p>" NR " files</p>"
 	print "  </main>"
 	print "</body>"
 	print "</html>"
