@@ -71,6 +71,12 @@ command_help() {
 	test $# -eq 0 || nope
 
 	usage
+	# echo
+	# documentation
+}
+
+documentation() {
+	# TODO describe the commands and flags
 }
 
 command_init() {
