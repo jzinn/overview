@@ -26,7 +26,7 @@ main() {
 # BSD awk exits after one line when RS is set to "\0".
 # Therefore, we have to resort to perl -0.
 require_perl() {
-	if ! command -v perl > /dev/null 2>$1
+	if ! command -v perl > /dev/null 2>&1
 	then
 		echo 'Perl is required but not available' | die
 	fi
