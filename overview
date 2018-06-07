@@ -553,6 +553,9 @@ BEGIN {
 	print "    main, code {"
 	print "      font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, Courier, monospace;"
 	print "    }"
+	print "    footer {"
+	print "      padding: 30px;"
+	print "    }"
 	print "  </style>"
 	print "</head>"
 	print "<body>"
@@ -570,6 +573,7 @@ END {
 	else
 		print "    <p>" NR " files</p>"
 	print "  </main>"
+	print "  <footer></footer>"
 	print "</body>"
 	print "</html>"
 }
