@@ -550,11 +550,8 @@ BEGIN {
 	print "      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";"
 	print "      background-color: #eee;"
 	print "    }"
-	print "    main, pre {"
+	print "    main, code {"
 	print "      font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, Courier, monospace;"
-	print "    }"
-	print "    pre {"
-	print "      margin: 0;"
 	print "    }"
 	print "  </style>"
 	print "</head>"
@@ -614,7 +611,7 @@ function iteration_end() {
 function section_open(title) {
 	print ""
 	print "      <li>"
-	print "        <h3><pre>" title "</pre></h3>"
+	print "        <h3><code>" title "</code></h3>"
 	print "        <ol>"
 }
 
@@ -624,7 +621,7 @@ function section_close() {
 }
 
 function item(url, name) {
-	print "          <li><a href=\"" url "\"><pre>" name "</pre></a></li>"
+	print "          <li><a href=\"" url "\"><code>" name "</code></a></li>"
 }
 '
 }
