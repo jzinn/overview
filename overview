@@ -314,11 +314,11 @@ command_validate() {
 
 	if ! "$QUIET"
 	then
-		if present "$1"
+		if blank "$1"
 		then
-			sed 's/^/Dotfile contents: /' "$1"
-		else
 			echo 'Dotfile is blank'
+		else
+			sed 's/^/Dotfile contents: /' "$1"
 		fi
 	fi
 
@@ -330,16 +330,16 @@ command_validate() {
 # but BSD xargs will not.
 # So query must return something.
 query() {
-	if present "$1"
+	if blank "$1"
 	then
-		cat "$1"
-	else
 		printf -- '-name *.html\n'
+	else
+		cat "$1"
 	fi
 }
 
-present() {
-	grep -q '\S' "$1"
+blank() {
+	! grep -q '\S' "$1"
 }
 
 command_test() {
