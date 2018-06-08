@@ -555,6 +555,7 @@ BEGIN {
 	print "      font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, Courier, monospace;"
 	print "    }"
 	print "    body {"
+	print "      color: #111;"
 	print "      background-color: #eee;"
 	print "      margin: 0;"
 	print "    }"
