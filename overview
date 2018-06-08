@@ -554,7 +554,7 @@ BEGIN {
 	print "      font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, Courier, monospace;"
 	print "    }"
 	print "    footer {"
-	print "      padding: 30px;"
+	print "      margin-bottom: 60px;"
 	print "    }"
 	print "  </style>"
 	print "</head>"
@@ -568,12 +568,13 @@ END {
 	iteration_end()
 	print ""
 	print "    </ol>"
+	print "  </main>"
+	print "  <footer>"
 	if (NR == 1)
 		print "    <p><code>1 file</code></p>"
 	else
 		print "    <p><code>" NR " files</code></p>"
-	print "  </main>"
-	print "  <footer></footer>"
+	print "  </footer>"
 	print "</body>"
 	print "</html>"
 }
