@@ -271,7 +271,8 @@ command_node() {
 
 	if ! "$0" validate -q -- "$1"
 	then
-		echo 'Dotfile is invalid!  For more information, run'
+		echo 'Dotfile is invalid!'
+		echo 'For more information, run'
 		echo
 		echo "    `shellquote "$0"` validate `shellquote "$1"`"
 		echo
