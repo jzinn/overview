@@ -365,7 +365,7 @@ command_test() {
 
 	# test $# -ge 0 || nope
 
-	set -- find . -quit \( "$@" \)
+	set -- find . -quit \( "$@" \) -print
 
 	if ! "$QUIET"
 	then
