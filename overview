@@ -358,6 +358,7 @@ command_test() {
 
 	# test $# -ge 0 || nope
 
+	# How to prohibit find actions, like -delete, in "$@"?
 	set -- find . -quit \( "$@" \) -print
 
 	if ! "$QUIET"
