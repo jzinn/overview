@@ -8,6 +8,23 @@ set -eu
 main() {
 	# require_perl
 
+	while test $# -ne 0
+	do
+		case "$1" in
+			-h | --help )
+				set -- help
+				break
+				;;
+			-- )
+				shift
+				break
+				;;
+			* )
+				break
+				;;
+		esac
+	done
+
 	test $# -ge 1 || nope
 
 	case "$1" in
