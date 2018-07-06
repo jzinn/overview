@@ -598,13 +598,17 @@ END {
 	print "    </ol>"
 	print "  </main>"
 	print "  <footer>"
-	if (NR == 1)
-		print "    <p><code>1 file</code></p>"
-	else
-		print "    <p><code>" NR " files</code></p>"
+	print "    <p><code>" number_of_files() "</code></p>"
 	print "  </footer>"
 	print "</body>"
 	print "</html>"
+}
+
+function number_of_files() {
+	if (NR == 1)
+		return "1 file"
+	else
+		return NR " files"
 }
 
 { process() }
