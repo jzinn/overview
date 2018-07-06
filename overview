@@ -121,7 +121,9 @@ command_init() {
 		esac
 	done
 
+	# Default to the current directory.
 	test $# -eq 0 && set -- .
+
 	test $# -eq 1 || nope
 
 	dotfile_init_"$INIT" "$1" dotfile_contents_"$INIT"
