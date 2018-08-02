@@ -128,18 +128,18 @@ command_init() {
 
 	# test -d "$1"
 
-	dotfile_init_"$INIT" init dotfile_contents_"$INIT" "$1"
+	with_dotfile_name_for_"$INIT" init dotfile_contents_"$INIT" "$1"
 }
 
-dotfile_init_default() {
+with_dotfile_name_for_default() {
 	"$@" .overview
 }
 
-dotfile_init_all() {
+with_dotfile_name_for_all() {
 	"$@" .overview-all
 }
 
-dotfile_init_root() {
+with_dotfile_name_for_root() {
 	"$@" .overview-root
 }
 
