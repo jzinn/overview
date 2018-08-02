@@ -126,6 +126,8 @@ command_init() {
 
 	test $# -eq 1 || nope
 
+	# test -d "$1"
+
 	dotfile_init_"$INIT" "$1" dotfile_contents_"$INIT"
 }
 
@@ -142,8 +144,6 @@ dotfile_init_root() {
 }
 
 init() {
-	# test -d "${1%/*}"
-
 	if test -e "$1"
 	then
 		echo "Not initializing `shellquote "$1"`: file already exists" | die
