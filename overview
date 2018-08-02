@@ -128,7 +128,7 @@ command_init() {
 
 	# test -d "$1"
 
-	with_dotfile_name_for_"$INIT" init dotfile_contents_"$INIT" "$1"
+	with_dotfile_name_for_"$INIT" init dotfile_contents_for_"$INIT" "$1"
 }
 
 with_dotfile_name_for_default() {
@@ -155,15 +155,15 @@ init() {
 	fi
 }
 
-dotfile_contents_default() {
+dotfile_contents_for_default() {
 	true
 }
 
-dotfile_contents_all() {
+dotfile_contents_for_all() {
 	printf -- '-true\n'
 }
 
-dotfile_contents_root() {
+dotfile_contents_for_root() {
 	printf -- '-name overview*.html\n'
 }
 
