@@ -128,28 +128,30 @@ command_init() {
 
 	# test -d "$1"
 
-	dotfile_init_"$INIT" "$1" dotfile_contents_"$INIT"
+	dotfile_init_"$INIT" init dotfile_contents_"$INIT" "$1"
 }
 
 dotfile_init_default() {
-	init "$1/.overview" "$2"
+	"$@" .overview
 }
 
 dotfile_init_all() {
-	init "$1/.overview-all" "$2"
+	"$@" .overview-all
 }
 
 dotfile_init_root() {
-	init "$1/.overview-root" "$2"
+	"$@" .overview-root
 }
 
 init() {
-	if test -e "$1"
+	set -- "$1" "$2/$3"
+
+	if test -e "$2"
 	then
-		echo "Not initializing `shellquote "$1"`: file already exists" | die
+		echo "Not initializing `shellquote "$2"`: file already exists" | die
 	else
-		"$2" > "$1"
-		echo "Initialized in `shellquote "$1"`"
+		"$1" > "$2"
+		echo "Initialized in `shellquote "$2"`"
 	fi
 }
 
