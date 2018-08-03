@@ -291,8 +291,8 @@ command_node() {
 		echo "    `shellquote "$0"` validate `shellquote "$1"`"
 		echo
 	else
-		set -- "$1" "${1##*/}" "${1%/*}"
-		set -- "$1" "$3/${2#.}.html"
+		set -- "$1" "${1%/*}" "${1##*/}"
+		set -- "$1" "$2/${3#.}.html"
 
 		query "$1" | { shift; exec xargs "$0" $DEBUG write $FORCE -- "$1" "$2"; }
 	fi
