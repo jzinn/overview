@@ -233,7 +233,7 @@ command_dotfiles() {
 }
 
 # We typically get here from a `find | xargs -n 1 node`.
-# The `node` command requires one argument (a dotfile),
+# The `node` command requires one argument (a path to a dotfile),
 # but if `find` returns no results,
 # then `xargs` will still call `node` one time with no arguments.
 #
