@@ -5,8 +5,6 @@
 set -eu
 
 main() {
-	# require_perl
-
 	while test $# -ne 0
 	do
 		case "$1" in
@@ -35,16 +33,6 @@ main() {
 			nope
 			;;
 	esac
-}
-
-# BSD sed lacks the -z / --zero-terminated flag.
-# BSD awk exits after processing one line when RS is set to "\0".
-# Therefore, we have to resort to perl -0.
-require_perl() {
-	if ! command -v perl > /dev/null 2>&1
-	then
-		echo 'Perl is required but not available' | die
-	fi
 }
 
 nope() {
@@ -486,6 +474,8 @@ command_find() {
 	exec find . -mindepth 2 -type f \( "$@" \) "$PRINT"
 }
 
+# GNU sed has a -z / --zero-terminated flag, but BSD sed does not.
+# Therefore, we have to resort to perl -0.
 command_sort() {
 	REVERSE=
 	Z=0
@@ -515,15 +505,14 @@ command_sort() {
 
 	test $# -eq 0 || nope
 
-	# GNU sed has a -z option, but BSD sed does not.
-	# Use awk instead.
-
 	# Double up the last /, then sort, then remove the extra /.
 	awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/^.*\//,"&/")}1' |
 		sort -t / $REVERSE $ZERO_TERMINATED |
 		awk -v Z="$Z" 'BEGIN{if(Z)ORS=RS="\0"}{sub(/\/\//,"/")}1'
 }
 
+# BSD awk exits after processing one line when RS is set to "\0".
+# Therefore, we have to resort to perl -0.
 command_html() {
 	ZERO_TERMINATED=0
 
