@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # shellcheck disable=SC2006
-# SC2006: Use $(..) instead of legacy `..`.
 
 set -eu
 
@@ -30,7 +29,6 @@ main() {
 	case "$1" in
 		init | root | dotfiles | node | validate | test | debug | write | list | find | sort | html | help )
 			# shellcheck disable=SC2145
-			# SC2145: Argument mixes string and array.
 			command_"$@"
 			;;
 		* )
