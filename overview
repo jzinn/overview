@@ -224,7 +224,8 @@ command_dotfiles() {
 # then `xargs` will still call `node` one time with no arguments.
 #
 # GNU `find` has a `-r` / `--no-run-if-empty` flag to prevent this,
-# but it is not portable.  With GNU `find`, we can write
+# but it is not portable.
+# With GNU `find`, we can write
 #
 #     find | xargs -n 1 --no-run-if-empty node
 #
