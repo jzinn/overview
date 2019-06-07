@@ -588,7 +588,8 @@ BEGIN {
 }
 
 END {
-	iteration_end()
+	if (NR)
+		section_close()
 	print ""
 	print "    </ol>"
 	print "  </main>"
@@ -614,30 +615,20 @@ function process(    url, name, title) {
 	$NF = ""
 	title = $0
 
-	iteration_middle(title)
+	section(title)
 	item(url, name)
 }
 
-function iteration_middle(title) {
-	if (iteration_changed(title))
-		iteration_tick(title)
-}
-
-function iteration_changed(title,    eq) {
-	eq = title == PREVIOUS
-	PREVIOUS = title
-	return !eq
-}
-
-function iteration_tick(title) {
-	if (NR != 1)
+function section(title) {
+	if (NR == 1) {
+		section_open(title)
+		TITLE = title
+	}
+	if (title != TITLE) {
 		section_close()
-	section_open(title)
-}
-
-function iteration_end() {
-	if (NR)
-		section_close()
+		section_open(title)
+		TITLE = title
+	}
 }
 
 function section_open(title) {
