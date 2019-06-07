@@ -587,6 +587,18 @@ BEGIN {
 	print "    <ol>"
 }
 
+{ process() }
+
+function process(    url, name, title) {
+	url = $0
+	name = $NF
+	$NF = ""
+	title = $0
+
+	section(title)
+	item(url, name)
+}
+
 END {
 	if (NR)
 		section_close()
@@ -598,25 +610,6 @@ END {
 	print "  </footer>"
 	print "</body>"
 	print "</html>"
-}
-
-function number_of_files() {
-	if (NR == 1)
-		return "1 file"
-	else
-		return NR " files"
-}
-
-{ process() }
-
-function process(    url, name, title) {
-	url = $0
-	name = $NF
-	$NF = ""
-	title = $0
-
-	section(title)
-	item(url, name)
 }
 
 function section(title) {
@@ -645,6 +638,13 @@ function section_close() {
 
 function item(url, name) {
 	print "          <li><a href=\"" url "\"><code>" name "</code></a></li>"
+}
+
+function number_of_files() {
+	if (NR == 1)
+		return "1 file"
+	else
+		return NR " files"
 }
 '
 }
