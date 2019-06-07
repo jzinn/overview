@@ -585,6 +585,7 @@ BEGIN {
 	print "  </header>"
 	print "  <main>"
 	print "    <ol>"
+	print ""
 }
 
 { process() }
@@ -619,13 +620,13 @@ function section(title) {
 	}
 	if (title != TITLE) {
 		section_close()
+		print ""
 		section_open(title)
 		TITLE = title
 	}
 }
 
 function section_open(title) {
-	print ""
 	print "      <li>"
 	print "        <h3><code>" title "</code></h3>"
 	print "        <ol>"
