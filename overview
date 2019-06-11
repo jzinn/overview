@@ -607,7 +607,7 @@ END {
 	print "    </ol>"
 	print "  </main>"
 	print "  <footer>"
-	print "    <p><code>" number_of_files() "</code></p>"
+	print "    <p><code>" pluralize(NR, "file") "</code></p>"
 	print "  </footer>"
 	print "</body>"
 	print "</html>"
@@ -641,11 +641,10 @@ function item(url, name) {
 	print "          <li><a href=\"" url "\"><code>" name "</code></a></li>"
 }
 
-function number_of_files() {
-	if (NR == 1)
-		return "1 file"
-	else
-		return NR " files"
+function pluralize(count, word) {
+	if (count != 1)
+		word = word "s"
+	return count " " word
 }
 '
 }
