@@ -47,22 +47,22 @@ die() {
 }
 
 usage() {
-	cat <<'EOF'
-Usage:
-    overview init [-a] [-r] [<directory>]
-    overview root [-d] [-f] [-j <n>] <directory>
-    overview dotfiles [-z] <directory>
-    overview node [-d] [-f] [-r] <file>
-    overview validate [-q] <file>
-    overview test [-q] [<expression>]
-    overview debug [...]
-    overview write [-f] <file> <directory> <expression>
-    overview list <directory> <expression>
-    overview find [-z] <directory> <expression>
-    overview sort [-r] [-z]
-    overview html [-z]
-    overview help
-EOF
+	cat <<-'EOF'
+	Usage:
+	    overview init [-a] [-r] [<directory>]
+	    overview root [-d] [-f] [-j <n>] <directory>
+	    overview dotfiles [-z] <directory>
+	    overview node [-d] [-f] [-r] <file>
+	    overview validate [-q] <file>
+	    overview test [-q] [<expression>]
+	    overview debug [...]
+	    overview write [-f] <file> <directory> <expression>
+	    overview list <directory> <expression>
+	    overview find [-z] <directory> <expression>
+	    overview sort [-r] [-z]
+	    overview html [-z]
+	    overview help
+	EOF
 }
 
 shellquote() {
