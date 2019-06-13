@@ -570,7 +570,8 @@ command_html()
 	# shellcheck disable=SC2016
 	# SC2016: Expressions don't expand in single quotes, use double quotes for that.
 	exec awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
-BEGIN {
+BEGIN
+{
 	if (ZERO_TERMINATED)
 		RS = "\0"
 	OFS = FS = "/"
@@ -619,9 +620,12 @@ BEGIN {
 	print ""
 }
 
-{ process() }
+{
+	process()
+}
 
-function process(    url, name, title) {
+function process(    url, name, title)
+{
 	url = $0
 	name = $NF
 	$NF = ""
@@ -631,7 +635,8 @@ function process(    url, name, title) {
 	item(url, name)
 }
 
-END {
+END
+{
 	if (NR)
 		section_close()
 	print ""
@@ -644,7 +649,8 @@ END {
 	print "</html>"
 }
 
-function section(title) {
+function section(title)
+{
 	if (NR == 1) {
 		section_open(title)
 		TITLE = title
@@ -657,22 +663,26 @@ function section(title) {
 	}
 }
 
-function section_open(title) {
+function section_open(title)
+{
 	print "      <li>"
 	print "        <h3><code>" title "</code></h3>"
 	print "        <ol>"
 }
 
-function section_close() {
+function section_close()
+{
 	print "        </ol>"
 	print "      </li>"
 }
 
-function item(url, name) {
+function item(url, name)
+{
 	print "          <li><a href=\"" url "\"><code>" name "</code></a></li>"
 }
 
-function pluralize(count, word) {
+function pluralize(count, word)
+{
 	if (count != 1)
 		word = word "s"
 	return count " " word
