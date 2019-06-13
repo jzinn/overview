@@ -4,7 +4,8 @@
 
 set -eu
 
-main() {
+main()
+{
 	while test $# -ne 0
 	do
 		case "$1" in
@@ -35,18 +36,21 @@ main() {
 	esac
 }
 
-nope() {
+nope()
+{
 	usage >&2
 	exit 1
 }
 
-die() {
+die()
+{
 	# sed "s/^/overview: $1: /" >&2
 	cat >&2
 	exit 1
 }
 
-usage() {
+usage()
+{
 	cat <<-'EOF'
 	Usage:
 	    overview init [-a] [-r] [<directory>]
@@ -65,12 +69,14 @@ usage() {
 	EOF
 }
 
-shellquote() {
+shellquote()
+{
 	printf -- '%s\0' "$1" |
 		awk 'BEGIN{RS="\0"}{gsub(/[^0-9A-Za-z\/_.-]/,"\\\\&")}1'
 }
 
-command_help() {
+command_help()
+{
 	test $# -eq 0 || nope
 
 	usage
@@ -78,12 +84,14 @@ command_help() {
 	# documentation
 }
 
-documentation() {
+documentation()
+{
 	# TODO describe the commands and flags
 	true
 }
 
-command_init() {
+command_init()
+{
 	INIT=default
 
 	while test $# -ne 0
@@ -117,19 +125,23 @@ command_init() {
 	with_dotfile_name_for_"$INIT" init dotfile_contents_for_"$INIT" "$1"
 }
 
-with_dotfile_name_for_default() {
+with_dotfile_name_for_default()
+{
 	"$@" .overview
 }
 
-with_dotfile_name_for_all() {
+with_dotfile_name_for_all()
+{
 	"$@" .overview-all
 }
 
-with_dotfile_name_for_root() {
+with_dotfile_name_for_root()
+{
 	"$@" .overview-root
 }
 
-init() {
+init()
+{
 	set -- "$1" "$2/$3"
 
 	if test -e "$2"
@@ -141,21 +153,25 @@ init() {
 	fi
 }
 
-dotfile_contents_for_default() {
+dotfile_contents_for_default()
+{
 	true
 }
 
-dotfile_contents_for_all() {
+dotfile_contents_for_all()
+{
 	printf -- '-true\n'
 }
 
-dotfile_contents_for_root() {
+dotfile_contents_for_root()
+{
 	printf -- '-name overview*.html\n'
 }
 
 # Sort the dotfiles so that if --jobs is 1
 # then ancestors can find overview*.html files written by descendents.
-command_root() {
+command_root()
+{
 	DEBUG=
 	FORCE=
 	JOBS=1
@@ -193,7 +209,8 @@ command_root() {
 		xargs -0 -n 1 -P "$JOBS" "$0" node $DEBUG $FORCE --no-run-if-empty --
 }
 
-command_dotfiles() {
+command_dotfiles()
+{
 	PRINT=-print
 
 	while test $# -ne 0
@@ -234,7 +251,8 @@ command_dotfiles() {
 #
 #     find | xargs -n 1 node --no-run-if-empty
 #
-command_node() {
+command_node()
+{
 	DEBUG=
 	FORCE=
 	NO_RUN_IF_EMPTY=false
@@ -285,7 +303,8 @@ command_node() {
 	fi
 }
 
-command_validate() {
+command_validate()
+{
 	QUIET=false
 	QUIET_FLAG=
 
@@ -331,7 +350,8 @@ command_validate() {
 # If stdin is empty, then GNU xargs will call the command,
 # but BSD xargs will not.
 # So query must return something.
-query() {
+query()
+{
 	if blank "$1"
 	then
 		printf -- '-name *.html\n'
@@ -340,11 +360,13 @@ query() {
 	fi
 }
 
-blank() {
+blank()
+{
 	! grep -q '\S' "$1"
 }
 
-command_test() {
+command_test()
+{
 	QUIET=false
 
 	while test $# -ne 0
@@ -378,13 +400,15 @@ command_test() {
 	fi
 }
 
-command_debug() {
+command_debug()
+{
 	# test $# -ge 0 || nope
 
 	debug 'debug:' "$@"
 }
 
-debug() {
+debug()
+{
 	printf -- '%s' "$1"
 	shift
 
@@ -402,7 +426,8 @@ debug() {
 	printf -- '\n'
 }
 
-command_write() {
+command_write()
+{
 	FORCE=false
 
 	while test $# -ne 0
@@ -433,21 +458,25 @@ command_write() {
 	echo "Wrote `shellquote "$1"`"
 }
 
-should_write() {
+should_write()
+{
 	! test -e "$1" || { test -f "$1" && { "$2" || has_magic < "$1"; }; }
 }
 
-has_magic() {
+has_magic()
+{
 	head | grep -q "keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij"
 }
 
-command_list() {
+command_list()
+{
 	test $# -ge 2 || nope
 
 	"$0" find -z -- "$@" | "$0" sort -z | "$0" html -z
 }
 
-command_find() {
+command_find()
+{
 	PRINT=-print
 
 	while test $# -ne 0
@@ -477,7 +506,8 @@ command_find() {
 
 # GNU sed has a -z / --zero-terminated flag, but BSD sed does not.
 # Therefore, we have to resort to perl -0.
-command_sort() {
+command_sort()
+{
 	REVERSE=
 	Z=0
 	ZERO_TERMINATED=
@@ -514,7 +544,8 @@ command_sort() {
 
 # BSD awk exits after processing one line when RS is set to "\0".
 # Therefore, we have to resort to perl -0.
-command_html() {
+command_html()
+{
 	ZERO_TERMINATED=0
 
 	while test $# -ne 0
