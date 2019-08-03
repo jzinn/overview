@@ -683,9 +683,7 @@ function item(url, name)
 
 function pluralize(count, word)
 {
-	if (count != 1)
-		word = word "s"
-	return count " " word
+	return count " " (count == 1 ? word : word "s")
 }
 '
 }
