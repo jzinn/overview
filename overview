@@ -578,6 +578,15 @@ BEGIN
 	template_open()
 }
 
+{
+	process()
+}
+
+END
+{
+	template_close()
+}
+
 function template_open()
 {
 	print "<!DOCTYPE html>"
@@ -625,10 +634,6 @@ function template_open()
 	print ""
 }
 
-{
-	process()
-}
-
 function process(    url, name, title)
 {
 	url = $0
@@ -638,11 +643,6 @@ function process(    url, name, title)
 
 	section(title)
 	item(url, name)
-}
-
-END
-{
-	template_close()
 }
 
 function template_close()
