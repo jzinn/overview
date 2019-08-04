@@ -570,8 +570,7 @@ command_html()
 	# shellcheck disable=SC2016
 	# SC2016: Expressions don't expand in single quotes, use double quotes for that.
 	exec awk -v ZERO_TERMINATED="$ZERO_TERMINATED" '
-BEGIN
-{
+BEGIN {
 	if (ZERO_TERMINATED)
 		RS = "\0"
 	OFS = FS = "/"
@@ -582,8 +581,7 @@ BEGIN
 	template_item()
 }
 
-END
-{
+END {
 	template_close()
 }
 
