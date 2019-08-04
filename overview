@@ -579,7 +579,7 @@ BEGIN
 }
 
 {
-	process()
+	template_item()
 }
 
 END
@@ -634,7 +634,7 @@ function template_open()
 	print ""
 }
 
-function process(    url, name, title)
+function template_item(    url, name, title)
 {
 	url = $0
 	name = $NF
