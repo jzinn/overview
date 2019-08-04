@@ -575,6 +575,11 @@ BEGIN
 	if (ZERO_TERMINATED)
 		RS = "\0"
 	OFS = FS = "/"
+	template_open()
+}
+
+function template_open()
+{
 	print "<!DOCTYPE html>"
 	print "<!-- keebee3eing9iem6chiepourooSiequ8ezookaewoocoh0aophei4EeSh5auheij -->"
 	print "<html lang=\"en\">"
@@ -636,6 +641,11 @@ function process(    url, name, title)
 }
 
 END
+{
+	template_close()
+}
+
+function template_close()
 {
 	if (NR)
 		section_close()
