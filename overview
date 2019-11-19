@@ -1,7 +1,4 @@
 #!/bin/sh
-
-# shellcheck disable=SC2006
-
 set -eu
 
 main()
