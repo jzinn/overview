@@ -590,7 +590,7 @@ function template_open()
 	print "<head>"
 	print "  <meta charset=\"utf-8\">"
 	print "  <title>Overview</title>"
-	print "  <link rel=\"icon\" href=\"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw\" />"
+	print "  <link rel=icon href=data:, />"
 	print "  <style>"
 	print "    body {"
 	print "      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";"
