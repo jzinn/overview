@@ -56,22 +56,21 @@ eval "
 
 usage()
 {
-	cat <<-'EOF'
-	Usage:
-	  overview init [-a] [-r] [<directory>]
-	  overview root [-d] [-f] [-j <n>] <directory>
-	  overview dotfiles [-z] <directory>
-	  overview node [-d] [-f] [-r] <file>
-	  overview validate [-q] <file>
-	  overview test [-q] [<expression>]
-	  overview debug [...]
-	  overview write [-f] <file> <directory> <expression>
-	  overview list <directory> <expression>
-	  overview find [-z] <directory> <expression>
-	  overview sort [-r] [-z]
-	  overview html [-z]
-	  overview help
-	EOF
+	set -- "`basename "$0"`"
+	echo "Usage:"
+	echo "  $1 init [-a] [-r] [<directory>]"
+	echo "  $1 root [-d] [-f] [-j <n>] <directory>"
+	echo "  $1 dotfiles [-z] <directory>"
+	echo "  $1 node [-d] [-f] [-r] <file>"
+	echo "  $1 validate [-q] <file>"
+	echo "  $1 test [-q] [<expression>]"
+	echo "  $1 debug [...]"
+	echo "  $1 write [-f] <file> <directory> <expression>"
+	echo "  $1 list <directory> <expression>"
+	echo "  $1 find [-z] <directory> <expression>"
+	echo "  $1 sort [-r] [-z]"
+	echo "  $1 html [-z]"
+	echo "  $1 help"
 }
 
 shellquote()
