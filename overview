@@ -239,6 +239,8 @@ command_dotfiles()
 	exec find "$1" -type f -name '.overview*' "$PRINT"
 }
 
+# !!! Use `find | xargs -n 1 -I % node %` !!!
+
 # We typically get here from a `find | xargs -n 1 node`.
 # The `node` command requires one argument (a path to a dotfile),
 # but if `find` returns no results,
@@ -349,6 +351,8 @@ command_validate()
 
 	query "$1" | xargs "$0" test $QUIET_FLAG --
 }
+
+# !!! Use `find | xargs -n 1 -I % node %` !!!
 
 # This is typically used via a query | xargs pipeline.
 # If stdin is empty, then GNU xargs will call the command,
